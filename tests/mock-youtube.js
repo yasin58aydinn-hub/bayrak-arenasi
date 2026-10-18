@@ -34,6 +34,13 @@ http.createServer(async (req, res) => {
     const page = u.searchParams.get('pageToken') ? 1 : 0, slice = comments.slice(page * 5, page * 5 + 5);
     return json({ items: slice.map(([a, t], i) => ({ snippet: { topLevelComment: { snippet: { authorChannelId: { value: a }, textOriginal: t, publishedAt: `2026-10-19T08:0${page * 5 + i}:00Z` } } } })), nextPageToken: page ? undefined : 'P2' });
   }
+  if (u.pathname === '/api/videos' && req.method === 'GET' && u.searchParams.get('part').includes('statistics')) {
+    return json({ items: u.searchParams.get('id').split(',').map((id, i) => ({ id, statistics: { viewCount: String(1000 * (i + 1)), likeCount: String(40 * (i + 1)), commentCount: String(12 * (i + 1)) }, snippet: { title: 'Video ' + id, publishedAt: '2026-10-18T07:00:00Z' } })) });
+  }
+  if (u.pathname === '/analytics/reports') {
+    const ids = u.searchParams.get('filters').replace('video==', '').split(',');
+    return json({ rows: ids.map((id, i) => [id, 1000 * (i + 1), 300 + i, 45 + i, 62.5 - i * 3, i]) });
+  }
   if (u.pathname === '/api/videos' && req.method === 'GET') {
     const v = videos[u.searchParams.get('id')];
     return json({ items: v ? [{ id: u.searchParams.get('id'), snippet: { ...v.meta.snippet, description: v.desc ?? v.meta.snippet.description }, status: v.meta.status }] : [] });

@@ -12,7 +12,7 @@ if (!clientId || !clientSecret) {
   process.exit(2);
 }
 const PORT = 8765, redirect = `http://localhost:${PORT}`;
-const scope = ['https://www.googleapis.com/auth/youtube.upload', 'https://www.googleapis.com/auth/youtube.force-ssl'].join(' ');
+const scope = ['https://www.googleapis.com/auth/youtube.upload', 'https://www.googleapis.com/auth/youtube.force-ssl', 'https://www.googleapis.com/auth/yt-analytics.readonly'].join(' ');
 const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
   client_id: clientId, redirect_uri: redirect, response_type: 'code', scope, access_type: 'offline', prompt: 'consent',
 });

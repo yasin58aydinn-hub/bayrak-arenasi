@@ -10,6 +10,7 @@ const { pickPair } = require('./lib/matchups');
 const { countVotes } = require('./lib/votes');
 const texts = require('./lib/texts');
 const yt = require('./lib/youtube');
+const { updateReport } = require('./lib/report');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'out');
@@ -134,8 +135,16 @@ async function aksam() {
   ]);
 }
 
+async function rapor() {
+  if (DRY) { log('[deneme] rapor atlandı'); return; }
+  const r = await updateReport(state, yt, istanbulDate());
+  if (!r) { log('Henüz raporlanacak video yok.'); return; }
+  summary([`### Rapor · ${istanbulDate()}`, `${r.videos} videonun verisi güncellendi${r.analytics ? ' (izlenme süreleriyle birlikte)' : ''}. Ayrıntılar: data/rapor.md`]);
+}
+
 (async () => {
   if (mode === 'sabah') await sabah();
   else if (mode === 'aksam') await aksam();
-  else { console.error('Kullanım: node scripts/daily.js sabah|aksam'); process.exit(2); }
+  else if (mode === 'rapor') await rapor();
+  else { console.error('Kullanım: node scripts/daily.js sabah|aksam|rapor'); process.exit(2); }
 })().catch(e => { console.error('\nHATA:', e.message); process.exit(1); });

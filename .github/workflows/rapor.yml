@@ -1,0 +1,38 @@
+name: Gece - performans raporu
+
+on:
+  schedule:
+    # 20:41 UTC = 23:41 Türkiye. Günün videolarının izlenme verilerini data/rapor.md dosyasına yazar.
+    - cron: '41 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bayrak-arenasi
+  cancel-in-progress: false
+
+jobs:
+  rapor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verileri topla
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: node scripts/daily.js rapor
+      - name: Raporu kaydet
+        run: |
+          git config user.name "bayrak-arenasi-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "Rapor: $(date -u +%F)"
+          git pull --rebase --quiet
+          git push

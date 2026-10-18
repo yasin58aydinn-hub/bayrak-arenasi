@@ -8,6 +8,7 @@ Yorumlarla güçlenen bayrak topu dövüşleri. Bu depo her gün kendiliğinden 
 | 18:07 | **Akşam işi** oylama Shorts'unun yorumlarını sayar (oylama burada kapanır), güçleri toplam yorum payına göre dağıtır, maçı oynatır ve videoları üretir. |
 | 20:00 | Uzun maç videosu (yaklaşık 3-4 dakika) kendi küçük resmiyle yayınlanır. |
 | 20:10 | Öne çıkanlar Shorts'u yayınlanır. Oylama Shorts'unun açıklamasına sonuç ve maç linki eklenir. |
+| 23:41 | **Gece raporu** bütün videoların izlenme, beğeni, yorum ve izlenme süresi verilerini `data/rapor.md` ve `data/istatistik.json` dosyalarına yazar. |
 
 GitHub'ın zamanlayıcısı yoğun saatlerde 5-30 dakika gecikebilir. Videolar YouTube'da önceden planlandığı için yayın saati yine de kaymaz.
 
@@ -22,7 +23,7 @@ Oyunun kendisi `index.html`. GitHub Pages açıldığında tarayıcıdan panel o
 Kanalın Gmail hesabıyla [console.cloud.google.com](https://console.cloud.google.com) adresine gir.
 
 1. Yeni bir proje oluştur (ör. `bayrak-arenasi`). Motivasyon kanalının projesini kullanma: YouTube kotası proje başına sayılır.
-2. **API'ler ve Hizmetler → Kitaplık** bölümünde "YouTube Data API v3"ü bul ve **Etkinleştir**.
+2. **API'ler ve Hizmetler → Kitaplık** bölümünde "YouTube Data API v3"ü bul ve **Etkinleştir**. Aynı yerden "YouTube Analytics API"yi de etkinleştir (gece raporundaki izlenme süreleri için).
 3. **OAuth izin ekranı**nı kur: kullanıcı türü **Harici**, uygulama adı "Bayrak Arenası", destek e-postası olarak kanalın Gmail'i. Test kullanıcılarına da kanalın Gmail'ini ekle.
 4. **Önemli:** İzin ekranında **Uygulamayı yayınla** diyerek durumu "Üretim"e al. "Test" durumunda bırakırsan anahtar 7 günde bir geçersiz olur ve otomasyon durur. Uygulamanın Google tarafından doğrulanması gerekmez.
 5. **Kimlik bilgileri → Kimlik bilgisi oluştur → OAuth istemci kimliği**, uygulama türü **Masaüstü uygulaması**. Çıkan **İstemci kimliği** ve **İstemci gizli anahtarı**nı bir kenara not et.
@@ -98,6 +99,10 @@ Ayarların zamanlanmış saatleriyle uyumlu olması için iş akışlarının sa
 **Ülke adları ve takma adlar:** `config/countries.json`. Yorumlarda bu adlardan biri geçerse oy sayılır ("Türkiye", "turkey", "🇹🇷" gibi). Her kişinin yalnızca ilk oyu sayılır, kanalın kendi yorumları sayılmaz.
 
 **Bir şey ters giderse:** GitHub, başarısız olan her çalışma için e-posta atar. Ayrıntılar **Actions** sekmesindeki kayıtlarda. Bot her gün `data/state.json` dosyasına kayıt düştüğü için depo hep "aktif" sayılır ve GitHub zamanlanmış işleri kapatmaz.
+
+## Kanal yönetimi ve raporlar
+
+Her gece `data/rapor.md` güncellenir: son 7 günün toplamları, her günün oylama, maç ve özet izlenmeleri, maç videolarının ortalama izlenme oranı ve en çok izlenen eşleşmeler. Ham veriler `data/istatistik.json` içinde. Bu iki dosya, ayarları (eşik yüzdeleri, maç süresi, yayın saatleri, eşleşme ağırlıkları, başlıklar) veriye göre düzenlemek için kullanılır.
 
 ## API'nin yapamadıkları
 

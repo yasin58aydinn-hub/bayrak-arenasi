@@ -4,6 +4,7 @@ const fs = require('fs');
 const TOKEN_URL = process.env.YT_TOKEN_URL || 'https://oauth2.googleapis.com/token';
 const API = process.env.YT_API_BASE || 'https://www.googleapis.com/youtube/v3';
 const UPLOAD = process.env.YT_UPLOAD_BASE || 'https://www.googleapis.com/upload/youtube/v3';
+const ANALYTICS = process.env.YT_ANALYTICS_BASE || 'https://youtubeanalytics.googleapis.com/v2';
 
 let cached = null;
 async function token() {
@@ -98,4 +99,25 @@ async function updateDescription(videoId, fn) {
   return call('PUT', `${API}/videos?part=snippet`, { json: { id: videoId, snippet: { title, description: fn(description || ''), tags, categoryId, defaultLanguage } } });
 }
 
-module.exports = { uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription };
+/** Public counters for many videos: {id: {views, likes, comments, title, publishedAt}} */
+async function videoStats(ids) {
+  const out = {};
+  for (let i = 0; i < ids.length; i += 50) {
+    const j = await call('GET', `${API}/videos?part=statistics,snippet&id=${ids.slice(i, i + 50).join(',')}`);
+    for (const v of j.items || []) out[v.id] = { views: +v.statistics.viewCount || 0, likes: +v.statistics.likeCount || 0, comments: +v.statistics.commentCount || 0, title: v.snippet.title, publishedAt: v.snippet.publishedAt };
+  }
+  return out;
+}
+
+/** Watch-time metrics from the YouTube Analytics API (needs the yt-analytics.readonly scope). */
+async function videoAnalytics(ids, startDate, endDate) {
+  const out = {};
+  for (let i = 0; i < ids.length; i += 50) {
+    const q = new URLSearchParams({ ids: 'channel==MINE', startDate, endDate, metrics: 'views,estimatedMinutesWatched,averageViewDuration,averageViewPercentage,subscribersGained', dimensions: 'video', filters: `video==${ids.slice(i, i + 50).join(',')}`, maxResults: '200' });
+    const j = await call('GET', `${ANALYTICS}/reports?${q}`);
+    for (const [id, views, minutes, avgSec, avgPct, subs] of j.rows || []) out[id] = { watchMinutes: minutes, avgViewSec: avgSec, avgViewPct: avgPct, subsGained: subs };
+  }
+  return out;
+}
+
+module.exports = { uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription, videoStats, videoAnalytics };
