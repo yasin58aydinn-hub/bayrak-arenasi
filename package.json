@@ -1,0 +1,15 @@
+{
+  "name": "bayrak-arenasi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bayrak Arenası: yorumlarla güçlenen bayrak topu dövüşleri için otomatik YouTube video üretimi",
+  "scripts": {
+    "sabah": "node scripts/daily.js sabah",
+    "aksam": "node scripts/daily.js aksam",
+    "test": "node tests/votes.test.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "playwright": "1.56.0"
+  }
+}

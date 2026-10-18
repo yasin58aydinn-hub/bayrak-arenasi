@@ -1,0 +1,5 @@
+# Sıradaki eşleşmeleri buraya yazabilirsin, her satıra bir maç.
+# Biçim: iki ülke kodu, araya tire. Örnek: tr-ru
+# Sistem en üstteki satırı alır ve siler. Liste boşsa eşleşmeyi kendisi seçer.
+# Ülke kodları: config/countries.json dosyasında.
+tr-ru

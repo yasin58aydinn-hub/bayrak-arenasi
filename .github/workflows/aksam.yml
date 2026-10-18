@@ -1,0 +1,70 @@
+name: Akşam - maç ve öne çıkanlar
+
+on:
+  schedule:
+    # 15:07 UTC = 18:07 Türkiye. Oylama bu saatte kapanır; videolar 20:00 ve 20:10'da yayınlanacak şekilde planlanır.
+    - cron: '7 15 * * *'
+  workflow_dispatch:
+    inputs:
+      deneme:
+        description: "Deneme modu: videoları üret ama YouTube'a yükleme"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bayrak-arenasi
+  cancel-in-progress: false
+
+jobs:
+  aksam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.deneme && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Araçları kur
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          pip install --quiet numpy scipy
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Oyları say, maçı üret ve yükle
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: node scripts/daily.js aksam
+
+      - name: Durumu kaydet
+        if: env.DRY_RUN != '1'
+        run: |
+          git config user.name "bayrak-arenasi-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "Akşam: $(date -u +%F)"
+          git pull --rebase --quiet
+          git push
+
+      - name: Videoları indirilebilir yap
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aksam-videolari
+          path: out/
+          retention-days: 3
+          if-no-files-found: ignore

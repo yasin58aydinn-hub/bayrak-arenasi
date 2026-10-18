@@ -1,0 +1,21 @@
+{
+  "pollPublishTime": "10:00",
+  "matchPublishTime": "20:00",
+  "highlightPublishTime": "20:10",
+  "scheduledPublish": true,
+  "privacy": "public",
+  "categoryId": "20",
+
+  "rounds": 5,
+  "targetSeconds": [180, 240],
+  "seedCandidates": 24,
+
+  "thresholdMode": "auto",
+  "thresholdPercent": { "shield": 8, "armor": 18, "sharp": 30, "rage": 42, "special": 55 },
+
+  "countryWeights": { "tr": 3 },
+  "blockedPairs": [["ru", "ua"], ["in", "pk"]],
+  "avoidRepeatDays": 30,
+
+  "tags": ["bayrak arenası", "countryball", "bayrak topu", "ülke savaşı", "yorum savaşı", "kılıç dövüşü", "animasyon"]
+}
