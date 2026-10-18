@@ -143,6 +143,10 @@ async function rapor() {
 }
 
 (async () => {
+  if (!DRY && mode !== 'rapor' && !process.env.YT_REFRESH_TOKEN) {
+    summary(['### İş atlandı', 'YouTube anahtarları (GitHub Secrets) henüz eklenmemiş. README\'deki kurulum adımlarını tamamlayınca iş kendiliğinden çalışmaya başlar.']);
+    return;
+  }
   if (mode === 'sabah') await sabah();
   else if (mode === 'aksam') await aksam();
   else if (mode === 'rapor') await rapor();
