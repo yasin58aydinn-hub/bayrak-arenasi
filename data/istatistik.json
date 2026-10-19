@@ -1,0 +1,38 @@
+{
+  "updated": "2026-10-19T20:29:25.940Z",
+  "days": [
+    {
+      "date": "2026-10-19",
+      "a": "tr",
+      "b": "ru",
+      "votesA": 1,
+      "votesB": 0,
+      "winner": "tr",
+      "score": "3-2",
+      "oylama": {
+        "id": "EO16YOjauio",
+        "views": 1242,
+        "likes": 9,
+        "comments": 3,
+        "title": "Türkiye mi Rusya mı? Yorumunla güç ver ⚔️ #türkiye #rusya",
+        "publishedAt": "2026-10-19T07:33:11Z"
+      },
+      "maç": {
+        "id": "XLN1XShbiFQ",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "title": "TÜRKİYE vs RUSYA | 1 Yorum vs 0 Yorum: Kim Kazandı? ⚔️",
+        "publishedAt": "2026-10-19T17:00:04Z"
+      },
+      "özet": {
+        "id": "Tpt-H9pJouM",
+        "views": 613,
+        "likes": 7,
+        "comments": 0,
+        "title": "Türkiye vs Rusya: K.O. anı! ⚔️ #türkiye #rusya",
+        "publishedAt": "2026-10-19T17:10:08Z"
+      }
+    }
+  ]
+}
