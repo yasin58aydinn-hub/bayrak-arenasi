@@ -4,7 +4,7 @@ const path = require('path');
 const C = require('../../config/countries.json');
 
 const DATA = path.resolve(__dirname, '../../data');
-const TYPES = { pollId: 'oylama', longId: 'maç', highlightId: 'özet' };
+const TYPES = { pollId: 'oylama', longId: 'maç', highlightId: 'özet', montageId: 'montaj' };
 const pct = x => (x === undefined || x === null ? '-' : `%${Math.round(x)}`);
 const num = x => (x === undefined || x === null ? '-' : Number(x).toLocaleString('tr-TR'));
 const avg = a => (a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0);
@@ -39,13 +39,14 @@ async function updateReport(state, yt, today) {
     `- Oylama Shorts'ları: ${num(tot('oylama'))} izlenme, ortalama ${num(Math.round(avg(last7.map(r => (r.votesA || 0) + (r.votesB || 0)))))} oy`,
     `- Maç videoları: ${num(tot('maç'))} izlenme, ortalama izlenme oranı ${pct(avg(last7.map(r => r['maç']?.avgViewPct).filter(x => x !== undefined)) || null)}`,
     `- Özet Shorts'ları: ${num(tot('özet'))} izlenme`,
+    `- Montaj Shorts'ları: ${num(tot('montaj'))} izlenme`,
     `- Kazanılan abone (videolardan): ${num(last7.reduce((s, r) => s + Object.values(TYPES).reduce((q, t) => q + (r[t]?.subsGained || 0), 0), 0))}`,
     anaNote ? `\n> ${anaNote}` : '',
     '',
     '## Günlük',
-    '| Tarih | Maç | Oy | Skor | Oylama izl. | Maç izl. | Maç ort. izlenme | Özet izl. | Yorum (oylama) |',
-    '|---|---|---|---|---|---|---|---|---|',
-    ...rows.slice().reverse().map(r => `| ${r.date} | ${name(r.a)} - ${name(r.b)} | ${num(r.votesA)}-${num(r.votesB)} | ${r.score} | ${num(r['oylama']?.views)} | ${num(r['maç']?.views)} | ${pct(r['maç']?.avgViewPct)} | ${num(r['özet']?.views)} | ${num(r['oylama']?.comments)} |`),
+    '| Tarih | Maç | Oy | Skor | Oylama izl. | Maç izl. | Maç ort. izlenme | Özet izl. | Montaj izl. | Yorum (oylama) |',
+    '|---|---|---|---|---|---|---|---|---|---|',
+    ...rows.slice().reverse().map(r => `| ${r.date} | ${name(r.a)} - ${name(r.b)} | ${num(r.votesA)}-${num(r.votesB)} | ${r.score} | ${num(r['oylama']?.views)} | ${num(r['maç']?.views)} | ${pct(r['maç']?.avgViewPct)} | ${num(r['özet']?.views)} | ${num(r['montaj']?.views)} | ${num(r['oylama']?.comments)} |`),
     '',
     '## En çok izlenen maçlar',
     ...best.map((r, i) => `${i + 1}. ${name(r.a)} - ${name(r.b)} (${r.date}): ${num(r['maç'].views)} izlenme`),

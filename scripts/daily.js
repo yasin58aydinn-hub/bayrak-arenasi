@@ -27,10 +27,10 @@ const log = (...a) => console.log('•', ...a);
 // Turkey has no daylight saving time: Istanbul is always UTC+3.
 const TZ = 3;
 const istanbulDate = (d = new Date()) => new Date(d.getTime() + TZ * 3600e3).toISOString().slice(0, 10);
-function publishAt(hhmm) {
+function publishAt(hhmm, dayOffset = 0) {
   if (!S.scheduledPublish || !hhmm) return null;
   const [h, m] = hhmm.split(':').map(Number);
-  const t = new Date(`${istanbulDate()}T00:00:00Z`).getTime() + ((h - TZ) * 60 + m) * 60e3;
+  const t = new Date(`${istanbulDate()}T00:00:00Z`).getTime() + dayOffset * 86400e3 + ((h - TZ) * 60 + m) * 60e3;
   return t - Date.now() > 3 * 60e3 ? new Date(t).toISOString() : null;
 }
 const engineCfg = () => ({ mode: S.thresholdMode || 'auto', pct: S.thresholdPercent, time: S.matchPublishTime });
@@ -97,7 +97,8 @@ async function aksam() {
   const seeds = Array.from({ length: S.seedCandidates }, (_, i) => (dayNum % 100000) * 50 + i + 1);
 
   fs.mkdirSync(OUT, { recursive: true });
-  const longFile = path.join(OUT, 'aksam_mac.mp4'), hlFile = path.join(OUT, 'aksam_ozet.mp4'), thumb = path.join(OUT, 'kapak.jpg');
+  const longFile = path.join(OUT, 'aksam_mac.mp4'), hlFile = path.join(OUT, 'aksam_ozet.mp4'), mtFile = path.join(OUT, 'yarin_montaj.mp4'), thumb = path.join(OUT, 'kapak.jpg');
+  let montageMade = false;
   const r = await Renderer.open();
   let result;
   try {
@@ -108,14 +109,25 @@ async function aksam() {
     result = await r.match(match, longFile);
     log(`uzun video hazır (${Math.round(result.seconds)} sn)`);
     const hook = { text: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}`, sub: 'KİM KAZANDI?' };
-    await r.highlight(match, result.events, next, hook, hlFile);
+    const used = await r.highlight(match, result.events, next, hook, hlFile);
     log('öne çıkanlar Shorts\'u hazır');
+    if (S.montageShort) {
+      try {
+        montageMade = !!(await r.montage(match, result.events, used, { text: 'EN SERT ANLAR', sub: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}` }, mtFile));
+        log(montageMade ? 'montaj Shorts\'u hazır (yarın yayınlanacak)' : 'montaj için yeterli an yok, atlandı');
+      } catch (e) { console.warn(`Montaj Shorts'u üretilemedi: ${e.message}`); }
+    }
   } finally { await r.close(); }
 
   const winner = result.winner === 0 ? pair.a : pair.b;
   const tags = texts.keywords(pair, S.tags);
   const longId = await upload(longFile, { ...texts.match(pair, votes, next, t.pollId, S.minVotesInTitle ?? 50), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.matchPublishTime) }, thumb);
   const hlId = await upload(hlFile, { ...texts.highlight(pair, longId, next), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.highlightPublishTime) });
+  let mtId = null;
+  if (montageMade) {
+    try { mtId = await upload(mtFile, { ...texts.montage(pair, longId), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.montagePublishTime, 1) }); }
+    catch (e) { console.warn(`Montaj Shorts'u yüklenemedi: ${e.message}`); }
+  }
   if (!DRY && t.pollId && longId) {
     try {
       const p = texts.poll(pair, S);
@@ -125,7 +137,7 @@ async function aksam() {
     catch (e) { console.warn(`Oylama açıklaması güncellenemedi: ${e.message}`); }
   }
 
-  state.history.push({ date, a: pair.a, b: pair.b, votesA: votes.a, votesB: votes.b, winner, score: result.wins.join('-'), pollId: t.pollId, longId, highlightId: hlId });
+  state.history.push({ date, a: pair.a, b: pair.b, votesA: votes.a, votesB: votes.b, winner, score: result.wins.join('-'), pollId: t.pollId, longId, highlightId: hlId, montageId: mtId });
   state.today = null;
   state.next = next;
   save();
@@ -135,6 +147,7 @@ async function aksam() {
     `Oylar: ${votes.a} - ${votes.b}`,
     longId ? `Maç: https://youtu.be/${longId}` : '_Deneme modu: yükleme yapılmadı, videolar "out" çıktısında._',
     hlId ? `Öne çıkanlar: https://youtube.com/shorts/${hlId}` : '',
+    mtId ? `Yarın ${S.montagePublishTime}'te yayınlanacak montaj: https://youtube.com/shorts/${mtId}` : '',
     `Yarınki maç: ${texts.names.n(next.a)} vs ${texts.names.n(next.b)}`,
     longId && t.pollId ? '\nHatırlatma: Studio\'da oylama Shorts\'una "İlgili video" olarak maç videosunu bağla (API bu ayarı desteklemiyor).' : '',
   ]);

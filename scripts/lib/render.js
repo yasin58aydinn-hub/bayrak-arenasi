@@ -123,10 +123,42 @@ class Renderer {
   }
 
   /** Evening highlight Short: three key moments plus an end card (vertical). */
-  async highlight(match, events, next, hook, out) {
+  /** Renders a vertical Short from several moments of the match, followed by an end card. */
+  async clips(match, windows, hook, next, out, musicIndex, cardSeconds = 5) {
+    const evenW = windows.slice().sort((x, y) => x[0] - y[0]).map(([a, b]) => [Math.max(0, a - (a % 2)), b - (b % 2)]);
+    const tmp = out + '.silent.mp4', enc = encoder(tmp);
+    await this.page.evaluate(([m, v]) => { BA.setup(m, v); BA.begin('intro'); }, [match, VERTICAL]);
+    const audio = []; let outT = 0;
+    for (let w = 0; w < evenW.length; w++) {
+      const [a, b] = evenW[w];
+      const start = await this.page.evaluate(a => { const G = BA.G; while (G.tk < a) BA.tick(1); return G.tk; }, a);
+      if (w === 0) await this.page.evaluate(h => { BA.G.hook = { text: h.text, sub: h.sub, t: 0, dur: 2600 }; }, hook);
+      const n = Math.max(0, Math.floor((b - start) / 2));
+      for (let i = 0; i < n; i += 15) await enc.write(await this.grab(Math.min(15, n - i)));
+      const evs = await this.page.evaluate(([a, b]) => BA.G.events.filter(e => e[0] > a && e[0] <= b), [start, start + n * 2]);
+      evs.forEach(([t, nm]) => audio.push([outT + (t - start - 2) / 60, nm]));
+      outT += n / 30;
+    }
+    await this.page.evaluate(([m, v, nx]) => { BA.setup({ ...m, arena: 'colosseum' }, v); BA.begin('card', { cardNext: nx }); }, [match, VERTICAL, next ? [next.a, next.b] : null]);
+    const card = 30 * cardSeconds;
+    for (let i = 0; i < card; i += 15) await enc.write(await this.grab(15));
+    audio.push([outT + 0.05, 'go']); audio.push([outT + 1.35, 'beep']); audio.push([outT + 2.35, 'beep']);
+    outT += card / 30;
+    await enc.end();
+    finishAudio(tmp, audio, outT, track(musicIndex), out);
+    return outT;
+  }
+
+  static finalTick(events) {
     const at = n => events.filter(e => e[1] === n).map(e => e[0]);
     const kos = at('ko'), win = at('win')[0] ?? events[events.length - 1][0];
-    const finalT = kos.length && kos[kos.length - 1] > win - 60 * 8 ? kos[kos.length - 1] : win - 270;
+    return kos.length && kos[kos.length - 1] > win - 60 * 8 ? kos[kos.length - 1] : win - 270;
+  }
+
+  /** Evening highlight Short: a clash or parry, a super hit and the final knockout. Returns the moments used. */
+  async highlight(match, events, next, hook, out) {
+    const at = n => events.filter(e => e[1] === n).map(e => e[0]);
+    const finalT = Renderer.finalTick(events);
     const early = t => t < finalT - 60 * 16;
     const m1 = at('clash').filter(early).pop() ?? at('parry').filter(early).pop() ?? at('heavy').filter(early).pop();
     const mid = t => t < finalT - 60 * 9 && (m1 === undefined || t > m1 + 60 * 6);
@@ -135,29 +167,25 @@ class Renderer {
     if (m1 !== undefined) wins.push([m1 - 120, m1 + 120]);
     if (m2 !== undefined) wins.push([m2 - 30, m2 + 210]);
     wins.push([finalT - 150, finalT + 360]);
-    const evenW = wins.map(([a, b]) => [Math.max(0, a - (a % 2)), b - (b % 2)]);
+    await this.clips(match, wins, hook, next, out, match.seed + 3);
+    return [m1, m2, finalT].filter(x => x !== undefined);
+  }
 
-    const tmp = out + '.silent.mp4', enc = encoder(tmp);
-    await this.page.evaluate(([m, v]) => { BA.setup(m, v); BA.begin('intro'); }, [match, VERTICAL]);
-    const audio = []; let outT = 0;
-    for (let w = 0; w < evenW.length; w++) {
-      const [a, b] = evenW[w];
-      await this.page.evaluate(a => { const G = BA.G; while (G.tk < a) BA.tick(1); }, a);
-      if (w === 0) await this.page.evaluate(h => { BA.G.hook = { text: h.text, sub: h.sub, t: 0, dur: 2600 }; }, hook);
-      const n = (b - a) / 2;
-      for (let i = 0; i < n; i += 15) await enc.write(await this.grab(Math.min(15, n - i)));
-      const evs = await this.page.evaluate(([a, b]) => BA.G.events.filter(e => e[0] > a && e[0] <= b), [a, b]);
-      evs.forEach(([t, nm]) => audio.push([outT + (t - a - 2) / 60, nm]));
-      outT += n / 30;
+  /** Next-day montage Short: the hardest moments that the highlight did not use. */
+  async montage(match, events, used, hook, out) {
+    const finalT = Renderer.finalTick(events);
+    const weight = { clash: 5, parry: 5, break: 4, super: 3, slam: 2, heavy: 1 };
+    const cands = events.filter(([t, n]) => weight[n] && t > 200 && t < finalT - 60 * 8)
+      .sort((x, y) => weight[y[1]] - weight[x[1]] || x[0] - y[0]);
+    const picked = [];
+    for (const [t] of cands) {
+      if (picked.length >= 4) break;
+      if (picked.concat(used).some(u => Math.abs(u - t) < 60 * 6)) continue;
+      picked.push(t);
     }
-    await this.page.evaluate(([m, v, nx]) => { BA.setup({ ...m, arena: 'colosseum' }, v); BA.begin('card', { cardNext: nx }); }, [match, VERTICAL, next ? [next.a, next.b] : null]);
-    const card = 30 * 5;
-    for (let i = 0; i < card; i += 15) await enc.write(await this.grab(15));
-    audio.push([outT + 0.05, 'go']); audio.push([outT + 1.35, 'beep']); audio.push([outT + 2.35, 'beep']);
-    outT += card / 30;
-    await enc.end();
-    finishAudio(tmp, audio, outT, track(match.seed + 3), out);
-    return outT;
+    if (picked.length < 2) return null;
+    await this.clips(match, picked.map(t => [t - 75, t + 105]), hook, null, out, match.seed + 1, 4);
+    return picked;
   }
 }
 

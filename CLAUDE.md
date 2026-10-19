@@ -4,7 +4,7 @@ Bu depo, Türkçe "Bayrak Arenası" YouTube kanalını otomatik yönetir. Kanal 
 
 ## Günlük akış
 - `sabah.yml` (08:23 TR): eşleşme seçilir, oylama Shorts'u üretilip 10:00'a planlanır.
-- `aksam.yml` (18:07 TR): yorumlar sayılır, maç oynatılır, uzun video 20:00'a ve öne çıkanlar Shorts'u 20:10'a planlanır.
+- `aksam.yml` (18:07 TR): yorumlar sayılır, maç oynatılır, uzun video 20:00'a, öne çıkanlar Shorts'u 20:10'a ve en sert anlardan montaj Shorts'u ertesi gün 14:00'e planlanır.
 - `rapor.yml` (23:41 TR): `data/rapor.md` ve `data/istatistik.json` güncellenir.
 
 ## Verileri değerlendirirken

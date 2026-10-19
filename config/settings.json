@@ -2,6 +2,8 @@
   "pollPublishTime": "10:00",
   "matchPublishTime": "20:00",
   "highlightPublishTime": "20:10",
+  "montageShort": true,
+  "montagePublishTime": "14:00",
   "scheduledPublish": true,
   "privacy": "public",
   "categoryId": "20",

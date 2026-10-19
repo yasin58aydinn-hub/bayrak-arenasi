@@ -83,6 +83,20 @@ module.exports = {
       ].filter(x => x !== null).join('\n'),
     };
   },
+  montage(pair, longId) {
+    const h = hashtags(pair, 'short');
+    return {
+      title: `${n(pair.a)} vs ${n(pair.b)}: En sert anlar! ⚔️ ${h[1]} ${h[2]}`,
+      description: [
+        h.slice(0, 5).join(' '),
+        '',
+        longId ? `Maçın tamamı: ${watch(longId)}` : 'Maçın tamamı kanalda.',
+        'Bu akşamki maçta ülkene güç vermek için sabahki Shorts\'a yorum yaz!',
+        '',
+        h.slice(5).join(' '),
+      ].join('\n'),
+    };
+  },
   pollResult(longId, winner, votes, pair) {
     return `\n\nSONUÇ: ${n(winner)} kazandı! (${fmt(votes.a)} yorum ${n(pair.a)}, ${fmt(votes.b)} yorum ${n(pair.b)})\nMaçın tamamı: ${watch(longId)}`;
   },

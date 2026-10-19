@@ -8,6 +8,7 @@ Yorumlarla güçlenen bayrak topu dövüşleri. Bu depo her gün kendiliğinden 
 | 18:07 | **Akşam işi** oylama Shorts'unun yorumlarını sayar (oylama burada kapanır), güçleri toplam yorum payına göre dağıtır, maçı oynatır ve videoları üretir. |
 | 20:00 | Uzun maç videosu (yaklaşık 3-4 dakika) kendi küçük resmiyle yayınlanır. |
 | 20:10 | Öne çıkanlar Shorts'u yayınlanır. Oylama Shorts'unun açıklamasına sonuç ve maç linki eklenir. |
+| Ertesi gün 14:00 | Maçın en sert anlarından (parry, çatışma, kalkan kırılması) bir montaj Shorts'u yayınlanır. |
 | 23:41 | **Gece raporu** bütün videoların izlenme, beğeni, yorum ve izlenme süresi verilerini `data/rapor.md` ve `data/istatistik.json` dosyalarına yazar. |
 
 GitHub'ın zamanlayıcısı yoğun saatlerde 5-30 dakika gecikebilir. Videolar YouTube'da önceden planlandığı için yayın saati yine de kaymaz.
