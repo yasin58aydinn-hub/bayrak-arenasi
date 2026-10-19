@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   aksam:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.deneme && '1' || '' }}

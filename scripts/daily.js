@@ -151,4 +151,9 @@ async function rapor() {
   else if (mode === 'aksam') await aksam();
   else if (mode === 'rapor') await rapor();
   else { console.error('Kullanım: node scripts/daily.js sabah|aksam|rapor'); process.exit(2); }
-})().catch(e => { console.error('\nHATA:', e.message); process.exit(1); });
+})().catch(e => {
+  console.error('\nHATA:', e.message);
+  if (process.env.GITHUB_ACTIONS) console.log(`::error title=Bayrak Arenası::${e.message.replace(/\r?\n/g, ' ')}`);
+  if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `### Hata\n${e.message}\n`);
+  process.exit(1);
+});
