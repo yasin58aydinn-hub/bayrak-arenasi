@@ -1,5 +1,10 @@
 {
-  "today": null,
+  "today": {
+    "date": "2026-10-19",
+    "a": "tr",
+    "b": "ru",
+    "pollId": "EO16YOjauio"
+  },
   "next": null,
   "history": []
 }
