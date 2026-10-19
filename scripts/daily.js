@@ -104,7 +104,7 @@ async function aksam() {
     const best = await r.pickSeed(base, seeds, S.targetSeconds);
     log(`maç kodu ${best.seed} seçildi (tahmini ${Math.round(best.secs)} sn, skor ${best.wins.join('-')})`);
     const match = { ...base, seed: best.seed };
-    await r.still(match, null, 'thumb', { thumbTop: 'KİM KAZANIR?' }, thumb, '1280:720');
+    await r.still(match, null, 'thumb', { thumbTop: 'KİM KAZANIR?', thumbComments: votes.a + votes.b >= (S.minVotesInTitle ?? 50) }, thumb, '1280:720');
     result = await r.match(match, longFile);
     log(`uzun video hazır (${Math.round(result.seconds)} sn)`);
     const hook = { text: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}`, sub: 'KİM KAZANDI?' };
@@ -114,7 +114,7 @@ async function aksam() {
 
   const winner = result.winner === 0 ? pair.a : pair.b;
   const tags = texts.keywords(pair, S.tags);
-  const longId = await upload(longFile, { ...texts.match(pair, votes, next, t.pollId), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.matchPublishTime) }, thumb);
+  const longId = await upload(longFile, { ...texts.match(pair, votes, next, t.pollId, S.minVotesInTitle ?? 50), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.matchPublishTime) }, thumb);
   const hlId = await upload(hlFile, { ...texts.highlight(pair, longId, next), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.highlightPublishTime) });
   if (!DRY && t.pollId && longId) {
     try {

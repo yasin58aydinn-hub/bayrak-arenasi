@@ -46,14 +46,19 @@ module.exports = {
       ].join('\n'),
     };
   },
-  match(pair, votes, next, pollId) {
+  match(pair, votes, next, pollId, minVotes = 50) {
     const h = hashtags(pair, 'long');
+    const showVotes = votes.a + votes.b >= minVotes;
     return {
-      title: `${up(pair.a)} vs ${up(pair.b)} | ${fmt(votes.a)} Yorum vs ${fmt(votes.b)} Yorum: Kim Kazandı? ⚔️`,
+      title: showVotes
+        ? `${up(pair.a)} vs ${up(pair.b)} | ${fmt(votes.a)} Yorum vs ${fmt(votes.b)} Yorum: Kim Kazandı? ⚔️`
+        : `${up(pair.a)} vs ${up(pair.b)} | Kılıç Düellosu: Kim Kazandı? ⚔️`,
       description: [
         h.slice(0, 5).join(' '),
         '',
-        `${n(pair.a)} ve ${n(pair.b)} kılıç ve kalkanla arenada! Güçleri sizin yorumlarınız belirledi: ${fmt(votes.a)} yorum ${n(pair.a)}, ${fmt(votes.b)} yorum ${n(pair.b)}.`,
+        `${n(pair.a)} ve ${n(pair.b)} kılıç ve kalkanla arenada! Güçleri sizin yorumlarınız belirliyor${votes.a + votes.b ? `: bu maçta ${fmt(votes.a)} yorum ${n(pair.a)}, ${fmt(votes.b)} yorum ${n(pair.b)}` : ''}. Sıradaki maçta ülkene güç vermek için sabahki Shorts'a yorum yaz!`,
+        '',
+        'Beğenmeyi ve abone olmayı unutma, her akşam yeni maç! 🔔',
         '',
         pollId ? `Oylamanın yapıldığı Shorts: ${short(pollId)}` : null,
         next ? `Sıradaki maç: ${n(next.a)} vs ${n(next.b)}. Yarın sabah Shorts'ta oyunu ver!` : null,
