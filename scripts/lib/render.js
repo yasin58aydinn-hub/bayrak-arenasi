@@ -82,14 +82,26 @@ class Renderer {
   /** Morning Short: matchup announcement and the power table (10 s, vertical). */
   async poll(pair, cfg, out, musicIndex) {
     const tmp = out + '.silent.mp4', enc = encoder(tmp);
-    await this.page.evaluate(([p, c, day]) => {
-      BA.setup({ a: p.a, b: p.b, format: 'v', arena: ['colosseum', 'volcano', 'garden'][day % 3], seed: 5, mode: c.mode, pct: c.pct });
-      BA.begin('poll', { pollWhen: 'BU AKŞAM DÖVÜŞÜYORLAR' });
-    }, [pair, cfg, musicIndex]);
-    const frames = 30 * 10;
+    // Pick the seed with the most action in the first 15 seconds and no knockout, then film it live.
+    await this.page.evaluate(([p, c, day, time]) => {
+      const base = { a: p.a, b: p.b, format: 'v', arena: ['colosseum', 'volcano', 'garden'][day % 3], mode: c.mode, pct: c.pct, rounds: 5 };
+      const W = { hit: 1, heavy: 2, clash: 4, parry: 4, slam: 2, swish: 0.2 };
+      let best = 1, bestScore = -1;
+      for (let seed = 1; seed <= 30; seed++) {
+        BA.setup({ ...base, seed }); BA.begin('fight'); BA.tick(45 + 900);
+        const ev = BA.G.events.filter(e => e[0] > 45);
+        if (ev.some(e => e[1] === 'ko')) continue;
+        const sc = ev.reduce((s, e) => s + (W[e[1]] || 0), 0);
+        if (sc > bestScore) { bestScore = sc; best = seed; }
+      }
+      BA.setup({ ...base, seed: best }); BA.begin('fight'); BA.tick(45);
+      BA.G.events.length = 0;
+      Object.assign(BA.G, { pollOverlay: true, pollClock: 0, pollWhen: `BU AKŞAM ${time}'DE DÖVÜŞÜYORLAR`, pollTime: time });
+    }, [pair, cfg, musicIndex, cfg.time || '20:00']);
+    const frames = 30 * 15;
     for (let i = 0; i < frames; i += 15) await enc.write(await this.grab(15));
     await enc.end();
-    const ev = await this.page.evaluate(() => BA.G.events.map(([t, n]) => [(t - 2) / 60, n]));
+    const ev = await this.page.evaluate(() => { const t0 = 45; return BA.G.events.map(([t, n]) => [(t - t0 - 2) / 60, n]); });
     finishAudio(tmp, ev, frames / 30, track(musicIndex), out);
   }
 

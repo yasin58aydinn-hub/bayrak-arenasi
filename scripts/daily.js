@@ -33,7 +33,7 @@ function publishAt(hhmm) {
   const t = new Date(`${istanbulDate()}T00:00:00Z`).getTime() + ((h - TZ) * 60 + m) * 60e3;
   return t - Date.now() > 3 * 60e3 ? new Date(t).toISOString() : null;
 }
-const engineCfg = () => ({ mode: S.thresholdMode || 'auto', pct: S.thresholdPercent });
+const engineCfg = () => ({ mode: S.thresholdMode || 'auto', pct: S.thresholdPercent, time: S.matchPublishTime });
 
 function summary(lines) {
   console.log('\n' + lines.join('\n'));
