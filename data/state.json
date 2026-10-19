@@ -1,10 +1,21 @@
 {
-  "today": {
-    "date": "2026-10-19",
-    "a": "tr",
-    "b": "ru",
-    "pollId": "EO16YOjauio"
+  "today": null,
+  "next": {
+    "a": "pk",
+    "b": "ua"
   },
-  "next": null,
-  "history": []
+  "history": [
+    {
+      "date": "2026-10-19",
+      "a": "tr",
+      "b": "ru",
+      "votesA": 1,
+      "votesB": 0,
+      "winner": "tr",
+      "score": "3-2",
+      "pollId": "EO16YOjauio",
+      "longId": "XLN1XShbiFQ",
+      "highlightId": "Tpt-H9pJouM"
+    }
+  ]
 }
