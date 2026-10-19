@@ -65,7 +65,7 @@ async function sabah() {
   const file = path.join(OUT, 'sabah_oylama.mp4');
   try { await r.poll(pair, engineCfg(), file, Number(date.replace(/-/g, ''))); } finally { await r.close(); }
   log('oylama Shorts\'u hazır');
-  const meta = { ...texts.poll(pair, S), tags: [...S.tags, texts.names.n(pair.a), texts.names.n(pair.b)], categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.pollPublishTime) };
+  const meta = { ...texts.poll(pair, S), tags: texts.keywords(pair, S.tags), categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.pollPublishTime) };
   const pollId = await upload(file, meta);
   state.today = { date, a: pair.a, b: pair.b, pollId };
   state.next = null;
@@ -112,11 +112,15 @@ async function aksam() {
   } finally { await r.close(); }
 
   const winner = result.winner === 0 ? pair.a : pair.b;
-  const tags = [...S.tags, texts.names.n(pair.a), texts.names.n(pair.b)];
+  const tags = texts.keywords(pair, S.tags);
   const longId = await upload(longFile, { ...texts.match(pair, votes, next, t.pollId), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.matchPublishTime) }, thumb);
   const hlId = await upload(hlFile, { ...texts.highlight(pair, longId, next), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.highlightPublishTime) });
   if (!DRY && t.pollId && longId) {
-    try { await yt.updateDescription(t.pollId, d => d + texts.pollResult(longId, winner, votes, pair)); log('oylama Shorts\'unun açıklamasına sonuç eklendi'); }
+    try {
+      const p = texts.poll(pair, S);
+      await yt.updateVideo(t.pollId, () => ({ title: p.title.slice(0, 100), description: p.description + texts.pollResult(longId, winner, votes, pair), tags: texts.keywords(pair, S.tags) }));
+      log('oylama Shorts\'una sonuç ve güncel etiketler eklendi');
+    }
     catch (e) { console.warn(`Oylama açıklaması güncellenemedi: ${e.message}`); }
   }
 

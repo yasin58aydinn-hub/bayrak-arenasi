@@ -82,10 +82,10 @@ class Renderer {
   /** Morning Short: matchup announcement and the power table (10 s, vertical). */
   async poll(pair, cfg, out, musicIndex) {
     const tmp = out + '.silent.mp4', enc = encoder(tmp);
-    await this.page.evaluate(([p, c]) => {
-      BA.setup({ a: p.a, b: p.b, format: 'v', arena: 'colosseum', seed: 5, mode: c.mode, pct: c.pct });
+    await this.page.evaluate(([p, c, day]) => {
+      BA.setup({ a: p.a, b: p.b, format: 'v', arena: ['colosseum', 'volcano', 'garden'][day % 3], seed: 5, mode: c.mode, pct: c.pct });
       BA.begin('poll', { pollWhen: 'BU AKŞAM DÖVÜŞÜYORLAR' });
-    }, [pair, cfg]);
+    }, [pair, cfg, musicIndex]);
     const frames = 30 * 10;
     for (let i = 0; i < frames; i += 15) await enc.write(await this.grab(15));
     await enc.end();

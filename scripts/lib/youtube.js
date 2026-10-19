@@ -120,4 +120,13 @@ async function videoAnalytics(ids, startDate, endDate) {
   return out;
 }
 
-module.exports = { uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription, videoStats, videoAnalytics };
+/** Rewrites a video's title/description: fn(snippet) returns the fields to change. */
+async function updateVideo(videoId, fn) {
+  const v = await videoInfo(videoId);
+  if (!v) throw new Error(`Video bulunamadı: ${videoId}`);
+  const { title, description, tags, categoryId, defaultLanguage } = v.snippet;
+  const snippet = { title, description, tags, categoryId, defaultLanguage, ...fn(v.snippet) };
+  return call('PUT', `${API}/videos?part=snippet`, { json: { id: videoId, snippet } });
+}
+
+module.exports = { updateVideo, uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription, videoStats, videoAnalytics };
