@@ -5,7 +5,8 @@
 // DRY_RUN=1 renders everything into out/ without touching YouTube.
 const fs = require('fs');
 const path = require('path');
-const { Renderer } = require('./lib/render');
+// The renderer needs Playwright; load it only for the jobs that make videos.
+const Renderer = { open: () => require('./lib/render').Renderer.open() };
 const { pickPair } = require('./lib/matchups');
 const { countVotes } = require('./lib/votes');
 const texts = require('./lib/texts');
