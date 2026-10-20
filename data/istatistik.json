@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T21:02:44.526Z",
+  "updated": "2026-10-20T21:04:40.827Z",
   "days": [
     {
       "date": "2026-10-19",
@@ -11,27 +11,68 @@
       "score": "3-2",
       "oylama": {
         "id": "EO16YOjauio",
-        "views": 1244,
-        "likes": 9,
-        "comments": 3,
+        "views": 1391,
+        "likes": 12,
+        "comments": 5,
         "title": "Türkiye mi Rusya mı? Yorumunla güç ver ⚔️ #türkiye #rusya",
         "publishedAt": "2026-10-19T07:33:11Z"
       },
       "maç": {
         "id": "XLN1XShbiFQ",
-        "views": 0,
-        "likes": 0,
+        "views": 1,
+        "likes": 1,
         "comments": 0,
         "title": "TÜRKİYE vs RUSYA | 1 Yorum vs 0 Yorum: Kim Kazandı? ⚔️",
         "publishedAt": "2026-10-19T17:00:04Z"
       },
       "özet": {
         "id": "Tpt-H9pJouM",
-        "views": 633,
-        "likes": 7,
+        "views": 1150,
+        "likes": 9,
         "comments": 0,
         "title": "Türkiye vs Rusya: K.O. anı! ⚔️ #türkiye #rusya",
         "publishedAt": "2026-10-19T17:10:08Z"
+      }
+    },
+    {
+      "date": "2026-10-20",
+      "a": "tr",
+      "b": "de",
+      "votesA": 0,
+      "votesB": 0,
+      "winner": "de",
+      "score": "2-3",
+      "oylama": {
+        "id": "f6YMEO8LUbI",
+        "views": 1192,
+        "likes": 4,
+        "comments": 0,
+        "title": "Türkiye mi Almanya mı? Yorumunla güç ver ⚔️ #türkiye #almanya",
+        "publishedAt": "2026-10-20T07:00:24Z"
+      },
+      "maç": {
+        "id": "62D3SkCp-dM",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "title": "TÜRKİYE vs ALMANYA | Kılıç Düellosu: Kim Kazandı? ⚔️",
+        "publishedAt": "2026-10-20T17:00:18Z"
+      },
+      "özet": {
+        "id": "4ARrnBBycnA",
+        "views": 358,
+        "likes": 4,
+        "comments": 0,
+        "title": "Türkiye vs Almanya: K.O. anı! ⚔️ #türkiye #almanya",
+        "publishedAt": "2026-10-20T17:10:01Z"
+      },
+      "montaj": {
+        "id": "GQ0qG1jKIoo",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "title": "Türkiye vs Almanya: En sert anlar! ⚔️ #türkiye #almanya",
+        "publishedAt": "2026-10-20T15:47:42Z"
       }
     }
   ]
