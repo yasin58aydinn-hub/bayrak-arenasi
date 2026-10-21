@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Daily flow. Usage: node scripts/daily.js sabah | aksam
-//   sabah: picks the matchup, renders and uploads the voting Short.
-//   aksam: counts the votes, renders the match, uploads the long video and the highlight Short.
+//   sabah: picks the matchup, renders and uploads the voting Short, posts the channel's first comments.
+//   aksam: counts the votes, renders the match, uploads the long video, the highlight and the montage Shorts.
 // DRY_RUN=1 renders everything into out/ without touching YouTube.
 const fs = require('fs');
 const path = require('path');
@@ -56,6 +56,36 @@ async function upload(file, meta, thumb) {
   return id;
 }
 
+const sharesCountry = (x, y) => [x.a, x.b].some(c => c === y.a || c === y.b);
+const samePair = (x, y) => !!x && !!y && [x.a, x.b].sort().join() === [y.a, y.b].sort().join();
+
+/** Posts the channel's own comment. A video that was just uploaded may still be processing, so retry for a few minutes. */
+async function seedComment(id, text, label) {
+  if (DRY || !S.seedComments || !id) return;
+  for (let i = 1; i <= 6; i++) {
+    try { await yt.addComment(id, text); log(`${label}: kanalın yorumu eklendi`); return; }
+    catch (e) {
+      if (i === 6) { console.warn(`${label}: yorum eklenemedi: ${e.message}`); return; }
+      await new Promise(r => setTimeout(r, 30e3));
+    }
+  }
+}
+
+/**
+ * Shorts whose comments count as votes for today's match: the poll Short, plus last night's highlight
+ * and today's montage, which both announce this match on their end card. Those two are skipped when
+ * their own match shares a country with today's, because a comment there could be about that match.
+ */
+function voteSources(t, pair) {
+  const out = t.pollId ? [{ id: t.pollId, label: 'oylama' }] : [];
+  const prev = state.history[state.history.length - 1];
+  if (prev && samePair(prev.next, pair) && !sharesCountry(prev, pair)) {
+    if (prev.highlightId) out.push({ id: prev.highlightId, label: 'dünkü öne çıkanlar' });
+    if (prev.montageId) out.push({ id: prev.montageId, label: 'bugünkü montaj' });
+  }
+  return out;
+}
+
 async function sabah() {
   const date = istanbulDate();
   if (state.today && state.today.date === date && state.today.pollId) { log('Bugünün oylama Shorts\'u zaten yüklenmiş, çıkılıyor.'); return; }
@@ -71,6 +101,9 @@ async function sabah() {
   state.today = { date, a: pair.a, b: pair.b, pollId };
   state.next = null;
   save();
+  if (!meta.publishAt) await seedComment(pollId, texts.seedPoll(pair, S), 'oylama Shorts\'u');
+  const prev = state.history[state.history.length - 1];
+  if (prev && samePair(prev.next, pair)) await seedComment(prev.highlightId, texts.seedNext(pair, S), 'dünkü öne çıkanlar');
   summary([`### Sabah · ${date}`, `Maç: **${texts.names.n(pair.a)} vs ${texts.names.n(pair.b)}**`, pollId ? `Oylama Shorts'u: https://youtube.com/shorts/${pollId}` : '_Deneme modu: yükleme yapılmadı, video "out" çıktısında._']);
 }
 
@@ -85,9 +118,23 @@ async function aksam() {
 
   let votes = { a: 0, b: 0, voters: 0, comments: 0 };
   if (DRY) votes = { a: 120 + Math.floor(Math.random() * 500), b: 60 + Math.floor(Math.random() * 400) };
-  else if (t.pollId) {
-    const [owner, comments] = await Promise.all([yt.myChannelId().catch(() => null), yt.listComments(t.pollId)]);
-    votes = countVotes(comments, pair.a, pair.b, owner);
+  else {
+    const sources = voteSources(t, pair);
+    if (sources.length) {
+      const owner = await yt.myChannelId().catch(() => null);
+      const all = [];
+      for (const src of sources) {
+        try {
+          const c = await yt.listComments(src.id);
+          log(`${src.label} (${src.id}): ${c.length} yorum`);
+          all.push(...c);
+        } catch (e) {
+          if (src.id === t.pollId) throw e;
+          console.warn(`${src.label} yorumları okunamadı: ${e.message}`);
+        }
+      }
+      votes = countVotes(all, pair.a, pair.b, owner);
+    }
   }
   log(`Oylar: ${texts.names.n(pair.a)} ${votes.a} · ${texts.names.n(pair.b)} ${votes.b} (yorum: ${votes.comments ?? '-'})`);
 
@@ -109,11 +156,11 @@ async function aksam() {
     result = await r.match(match, longFile);
     log(`uzun video hazır (${Math.round(result.seconds)} sn)`);
     const hook = { text: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}`, sub: 'KİM KAZANDI?' };
-    const used = await r.highlight(match, result.events, next, hook, hlFile);
+    const used = await r.highlight(match, result.events, next, hook, hlFile, texts.cardLabel('tomorrow', S));
     log('öne çıkanlar Shorts\'u hazır');
     if (S.montageShort) {
       try {
-        montageMade = !!(await r.montage(match, result.events, used, { text: 'EN SERT ANLAR', sub: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}` }, mtFile));
+        montageMade = !!(await r.montage(match, result.events, used, { text: 'EN SERT ANLAR', sub: `${texts.names.up(pair.a)} vs ${texts.names.up(pair.b)}` }, mtFile, next, texts.cardLabel('today', S)));
         log(montageMade ? 'montaj Shorts\'u hazır (yarın yayınlanacak)' : 'montaj için yeterli an yok, atlandı');
       } catch (e) { console.warn(`Montaj Shorts'u üretilemedi: ${e.message}`); }
     }
@@ -122,10 +169,10 @@ async function aksam() {
   const winner = result.winner === 0 ? pair.a : pair.b;
   const tags = texts.keywords(pair, S.tags);
   const longId = await upload(longFile, { ...texts.match(pair, votes, next, t.pollId, S.minVotesInTitle ?? 50), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.matchPublishTime) }, thumb);
-  const hlId = await upload(hlFile, { ...texts.highlight(pair, longId, next), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.highlightPublishTime) });
+  const hlId = await upload(hlFile, { ...texts.highlight(pair, longId, next, S), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.highlightPublishTime) });
   let mtId = null;
   if (montageMade) {
-    try { mtId = await upload(mtFile, { ...texts.montage(pair, longId), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.montagePublishTime, 1) }); }
+    try { mtId = await upload(mtFile, { ...texts.montage(pair, longId, next, S), tags, categoryId: S.categoryId, privacy: S.privacy, publishAt: publishAt(S.montagePublishTime, 1) }); }
     catch (e) { console.warn(`Montaj Shorts'u yüklenemedi: ${e.message}`); }
   }
   if (!DRY && t.pollId && longId) {
@@ -137,14 +184,14 @@ async function aksam() {
     catch (e) { console.warn(`Oylama açıklaması güncellenemedi: ${e.message}`); }
   }
 
-  state.history.push({ date, a: pair.a, b: pair.b, votesA: votes.a, votesB: votes.b, winner, score: result.wins.join('-'), pollId: t.pollId, longId, highlightId: hlId, montageId: mtId });
+  state.history.push({ date, a: pair.a, b: pair.b, votesA: votes.a, votesB: votes.b, winner, score: result.wins.join('-'), pollId: t.pollId, longId, highlightId: hlId, montageId: mtId, next: { a: next.a, b: next.b } });
   state.today = null;
   state.next = next;
   save();
   summary([
     `### Akşam · ${date}`,
     `**${texts.names.n(pair.a)} ${result.wins[0]} - ${result.wins[1]} ${texts.names.n(pair.b)}** · kazanan: **${texts.names.n(winner)}**`,
-    `Oylar: ${votes.a} - ${votes.b}`,
+    `Oylar: ${votes.a} - ${votes.b} (${votes.comments ?? 0} yorum okundu)`,
     longId ? `Maç: https://youtu.be/${longId}` : '_Deneme modu: yükleme yapılmadı, videolar "out" çıktısında._',
     hlId ? `Öne çıkanlar: https://youtube.com/shorts/${hlId}` : '',
     mtId ? `Yarın ${S.montagePublishTime}'te yayınlanacak montaj: https://youtube.com/shorts/${mtId}` : '',

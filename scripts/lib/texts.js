@@ -7,6 +7,8 @@ const short = id => `https://youtube.com/shorts/${id}`;
 const watch = id => `https://youtu.be/${id}`;
 const slug = s => s.toLocaleLowerCase('tr-TR').replace(/[^\p{L}\p{N}]/gu, '');
 const tag = s => '#' + slug(s);
+const flag = id => C[id].aliases.find(a => /\p{Regional_Indicator}/u.test(a)) || '';
+const fn = id => `${flag(id)} ${n(id)}`.trim();
 
 /**
  * Hashtags in priority order. YouTube shows the first three above the title and gives the
@@ -69,7 +71,7 @@ module.exports = {
       ].filter(x => x !== null).join('\n'),
     };
   },
-  highlight(pair, longId, next) {
+  highlight(pair, longId, next, s = {}) {
     const h = hashtags(pair, 'short');
     return {
       title: `${n(pair.a)} vs ${n(pair.b)}: K.O. anı! ⚔️ ${h[1]} ${h[2]}`,
@@ -77,13 +79,13 @@ module.exports = {
         h.slice(0, 5).join(' '),
         '',
         longId ? `Maçın tamamı: ${watch(longId)}` : 'Maçın tamamı kanalda.',
-        next ? `Sıradaki maç: ${n(next.a)} vs ${n(next.b)}. Yorumlara ülkeni yaz!` : null,
+        next ? `Sıradaki maç yarın ${s.matchPublishTime || '20:00'}'de: ${n(next.a)} vs ${n(next.b)}. Yorumlara desteklediğin ülkeyi yaz, bu videodaki yorumlar da oy olarak sayılır!` : null,
         '',
         h.slice(5).join(' '),
       ].filter(x => x !== null).join('\n'),
     };
   },
-  montage(pair, longId) {
+  montage(pair, longId, next, s = {}) {
     const h = hashtags(pair, 'short');
     return {
       title: `${n(pair.a)} vs ${n(pair.b)}: En sert anlar! ⚔️ ${h[1]} ${h[2]}`,
@@ -91,12 +93,22 @@ module.exports = {
         h.slice(0, 5).join(' '),
         '',
         longId ? `Maçın tamamı: ${watch(longId)}` : 'Maçın tamamı kanalda.',
-        'Bu akşamki maçta ülkene güç vermek için sabahki Shorts\'a yorum yaz!',
+        next ? `Bu akşam ${s.matchPublishTime || '20:00'}'de ${n(next.a)} vs ${n(next.b)}! Yorumlara desteklediğin ülkeyi yaz, bu videodaki yorumlar da oy olarak sayılır.` : 'Bu akşamki maçta ülkene güç vermek için yorumlara ülkeni yaz!',
         '',
         h.slice(5).join(' '),
       ].join('\n'),
     };
   },
+  /** First comment the channel posts under the poll Short. */
+  seedPoll(pair, s) {
+    return `${fn(pair.a)} ${C[pair.a].q}, ${fn(pair.b)} ${C[pair.b].q}? 👇\nYorumlara desteklediğin ülkenin adını yaz. Ne kadar çok yorum, o kadar çok güç! Maç bu akşam ${s.matchPublishTime}'de kanalda.`;
+  },
+  /** Comment posted next morning under last night's highlight Short, which announced this match. */
+  seedNext(pair, s) {
+    return `Bu akşam ${s.matchPublishTime}'de ${fn(pair.a)} vs ${fn(pair.b)}! Kimi destekliyorsun? 👇\nÜlkenin adını yaz, bu videodaki yorumlar da oy olarak sayılır.`;
+  },
+  /** Label above the next match on the end card. */
+  cardLabel(when, s) { return `${when === 'today' ? 'BU AKŞAM' : 'YARIN'} ${s.matchPublishTime}`; },
   pollResult(longId, winner, votes, pair) {
     return `\n\nSONUÇ: ${n(winner)} kazandı! (${fmt(votes.a)} yorum ${n(pair.a)}, ${fmt(votes.b)} yorum ${n(pair.b)})\nMaçın tamamı: ${watch(longId)}`;
   },

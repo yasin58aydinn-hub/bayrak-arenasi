@@ -30,6 +30,12 @@ http.createServer(async (req, res) => {
   }
   if (u.pathname === '/upload/thumbnails/set') { videos[u.searchParams.get('videoId')].thumb = b.length; return json({}); }
   if (u.pathname === '/api/channels') return json({ items: [{ id: 'OWNER' }] });
+  if (u.pathname === '/api/commentThreads' && req.method === 'POST') {
+    const m = JSON.parse(b.toString()), v = videos[m.snippet.videoId];
+    if (v) (v.seeded = v.seeded || []).push(m.snippet.topLevelComment.snippet.textOriginal);
+    else (videos.external = videos.external || []).push([m.snippet.videoId, m.snippet.topLevelComment.snippet.textOriginal]);
+    return json({ id: 'CMT' + (++n), snippet: m.snippet });
+  }
   if (u.pathname === '/api/commentThreads') {
     const page = u.searchParams.get('pageToken') ? 1 : 0, slice = comments.slice(page * 5, page * 5 + 5);
     return json({ items: slice.map(([a, t], i) => ({ snippet: { topLevelComment: { snippet: { authorChannelId: { value: a }, textOriginal: t, publishedAt: `2026-10-19T08:0${page * 5 + i}:00Z` } } } })), nextPageToken: page ? undefined : 'P2' });

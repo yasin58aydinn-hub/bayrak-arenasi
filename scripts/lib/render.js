@@ -83,25 +83,29 @@ class Renderer {
   async poll(pair, cfg, out, musicIndex) {
     const tmp = out + '.silent.mp4', enc = encoder(tmp);
     // Pick the seed with the most action in the first 15 seconds and no knockout, then film it live.
+    // Most viewers decide within the first second, so a hit or clash right at the start counts extra.
     await this.page.evaluate(([p, c, day, time]) => {
       const base = { a: p.a, b: p.b, format: 'v', arena: ['colosseum', 'volcano', 'garden'][day % 3], mode: c.mode, pct: c.pct, rounds: 5 };
       const W = { hit: 1, heavy: 2, clash: 4, parry: 4, slam: 2, swish: 0.2 };
+      const PRE = 60, overlay = { pollOverlay: true, pollClock: 0, pollWhen: `BU AKŞAM ${time}'DE DÖVÜŞÜYORLAR`, pollTime: time };
       let best = 1, bestScore = -1;
-      for (let seed = 1; seed <= 30; seed++) {
-        BA.setup({ ...base, seed }); BA.begin('fight'); BA.tick(45 + 900);
-        const ev = BA.G.events.filter(e => e[0] > 45);
+      for (let seed = 1; seed <= 40; seed++) {
+        BA.setup({ ...base, seed }); BA.begin('fight'); BA.tick(PRE + 900);
+        const ev = BA.G.events.filter(e => e[0] > PRE);
         if (ev.some(e => e[1] === 'ko')) continue;
-        const sc = ev.reduce((s, e) => s + (W[e[1]] || 0), 0);
+        const opening = ev.filter(e => e[0] <= PRE + 45 && ['hit', 'heavy', 'clash', 'parry', 'slam'].includes(e[1])).length;
+        const sc = ev.reduce((s, e) => s + (W[e[1]] || 0), 0) + (opening ? 12 : 0);
         if (sc > bestScore) { bestScore = sc; best = seed; }
       }
-      BA.setup({ ...base, seed: best }); BA.begin('fight'); BA.tick(45);
-      BA.G.events.length = 0;
-      Object.assign(BA.G, { pollOverlay: true, pollClock: 0, pollWhen: `BU AKŞAM ${time}'DE DÖVÜŞÜYORLAR`, pollTime: time });
+      // The overlay is on during the pre-roll too, so the camera is already close on the first frame.
+      BA.setup({ ...base, seed: best }); BA.begin('fight'); Object.assign(BA.G, overlay); BA.tick(PRE);
+      BA.G.events.length = 0; BA.G.pollClock = 0;
+      window.__POLL_T0 = BA.G.tk;
     }, [pair, cfg, musicIndex, cfg.time || '20:00']);
     const frames = 30 * 15;
     for (let i = 0; i < frames; i += 15) await enc.write(await this.grab(15));
     await enc.end();
-    const ev = await this.page.evaluate(() => { const t0 = 45; return BA.G.events.map(([t, n]) => [(t - t0 - 2) / 60, n]); });
+    const ev = await this.page.evaluate(() => { const t0 = window.__POLL_T0; return BA.G.events.map(([t, n]) => [(t - t0 - 2) / 60, n]); });
     finishAudio(tmp, ev, frames / 30, track(musicIndex), out);
   }
 
@@ -122,9 +126,8 @@ class Renderer {
     return { ...res, seconds: frames / 30 };
   }
 
-  /** Evening highlight Short: three key moments plus an end card (vertical). */
   /** Renders a vertical Short from several moments of the match, followed by an end card. */
-  async clips(match, windows, hook, next, out, musicIndex, cardSeconds = 5) {
+  async clips(match, windows, hook, next, out, musicIndex, cardSeconds = 5, cardLabel = null) {
     const evenW = windows.slice().sort((x, y) => x[0] - y[0]).map(([a, b]) => [Math.max(0, a - (a % 2)), b - (b % 2)]);
     const tmp = out + '.silent.mp4', enc = encoder(tmp);
     await this.page.evaluate(([m, v]) => { BA.setup(m, v); BA.begin('intro'); }, [match, VERTICAL]);
@@ -132,14 +135,15 @@ class Renderer {
     for (let w = 0; w < evenW.length; w++) {
       const [a, b] = evenW[w];
       const start = await this.page.evaluate(a => { const G = BA.G; while (G.tk < a) BA.tick(1); return G.tk; }, a);
-      if (w === 0) await this.page.evaluate(h => { BA.G.hook = { text: h.text, sub: h.sub, t: 0, dur: 2600 }; }, hook);
+      // The hook is fully visible on the very first frame: that is when viewers decide to stay or swipe.
+      if (w === 0) await this.page.evaluate(h => { BA.G.hook = { text: h.text, sub: h.sub, t: 0, dur: 2800, instant: true }; }, hook);
       const n = Math.max(0, Math.floor((b - start) / 2));
       for (let i = 0; i < n; i += 15) await enc.write(await this.grab(Math.min(15, n - i)));
       const evs = await this.page.evaluate(([a, b]) => BA.G.events.filter(e => e[0] > a && e[0] <= b), [start, start + n * 2]);
       evs.forEach(([t, nm]) => audio.push([outT + (t - start - 2) / 60, nm]));
       outT += n / 30;
     }
-    await this.page.evaluate(([m, v, nx]) => { BA.setup({ ...m, arena: 'colosseum' }, v); BA.begin('card', { cardNext: nx }); }, [match, VERTICAL, next ? [next.a, next.b] : null]);
+    await this.page.evaluate(([m, v, nx, lab]) => { BA.setup({ ...m, arena: 'colosseum' }, v); BA.begin('card', { cardNext: nx, cardLabel: lab }); }, [match, VERTICAL, next ? [next.a, next.b] : null, cardLabel]);
     const card = 30 * cardSeconds;
     for (let i = 0; i < card; i += 15) await enc.write(await this.grab(15));
     audio.push([outT + 0.05, 'go']); audio.push([outT + 1.35, 'beep']); audio.push([outT + 2.35, 'beep']);
@@ -156,7 +160,7 @@ class Renderer {
   }
 
   /** Evening highlight Short: a clash or parry, a super hit and the final knockout. Returns the moments used. */
-  async highlight(match, events, next, hook, out) {
+  async highlight(match, events, next, hook, out, cardLabel = null) {
     const at = n => events.filter(e => e[1] === n).map(e => e[0]);
     const finalT = Renderer.finalTick(events);
     const early = t => t < finalT - 60 * 16;
@@ -164,15 +168,16 @@ class Renderer {
     const mid = t => t < finalT - 60 * 9 && (m1 === undefined || t > m1 + 60 * 6);
     const m2 = at('super').filter(mid).pop() ?? at('slam').filter(mid).pop() ?? at('break').filter(mid).pop();
     const wins = [];
-    if (m1 !== undefined) wins.push([m1 - 120, m1 + 120]);
+    // Open right before the first impact so the Short starts on a hit, not on two fighters circling.
+    if (m1 !== undefined) wins.push([m1 - 40, m1 + 150]);
     if (m2 !== undefined) wins.push([m2 - 30, m2 + 210]);
     wins.push([finalT - 150, finalT + 360]);
-    await this.clips(match, wins, hook, next, out, match.seed + 3);
+    await this.clips(match, wins, hook, next, out, match.seed + 3, 5, cardLabel);
     return [m1, m2, finalT].filter(x => x !== undefined);
   }
 
   /** Next-day montage Short: the hardest moments that the highlight did not use. */
-  async montage(match, events, used, hook, out) {
+  async montage(match, events, used, hook, out, next = null, cardLabel = null) {
     const finalT = Renderer.finalTick(events);
     const weight = { clash: 5, parry: 5, break: 4, super: 3, slam: 2, heavy: 1 };
     const cands = events.filter(([t, n]) => weight[n] && t > 200 && t < finalT - 60 * 8)
@@ -184,7 +189,8 @@ class Renderer {
       picked.push(t);
     }
     if (picked.length < 2) return null;
-    await this.clips(match, picked.map(t => [t - 75, t + 105]), hook, null, out, match.seed + 1, 4);
+    // With a next match the card needs ~3.3 s to show it and the call to comment, so give it 5 s.
+    await this.clips(match, picked.map(t => [t - 45, t + 105]), hook, next, out, match.seed + 1, next ? 5 : 4, cardLabel);
     return picked;
   }
 }

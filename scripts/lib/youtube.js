@@ -120,6 +120,12 @@ async function videoAnalytics(ids, startDate, endDate) {
   return out;
 }
 
+/** Posts a top-level comment as the channel. Returns the comment thread id. */
+async function addComment(videoId, text) {
+  const j = await call('POST', `${API}/commentThreads?part=snippet`, { json: { snippet: { videoId, topLevelComment: { snippet: { textOriginal: text } } } } });
+  return j.id;
+}
+
 /** Rewrites a video's title/description: fn(snippet) returns the fields to change. */
 async function updateVideo(videoId, fn) {
   const v = await videoInfo(videoId);
@@ -129,4 +135,4 @@ async function updateVideo(videoId, fn) {
   return call('PUT', `${API}/videos?part=snippet`, { json: { id: videoId, snippet } });
 }
 
-module.exports = { updateVideo, uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription, videoStats, videoAnalytics };
+module.exports = { addComment, updateVideo, uploadVideo, setThumbnail, myChannelId, listComments, videoInfo, updateDescription, videoStats, videoAnalytics };

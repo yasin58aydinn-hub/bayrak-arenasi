@@ -30,11 +30,16 @@ function pickPair(history, settings, exclude = []) {
   const recent = new Set(history.slice(-(settings.avoidRepeatDays || 30)).map(h => key(h.a, h.b)));
   const lastTwo = new Set(history.slice(-2).flatMap(h => [h.a, h.b]).concat(exclude));
   const w = id => (settings.countryWeights?.[id] ?? 1) * (lastTwo.has(id) ? 0.25 : 1);
+  // The featured country (the audience's own) plays at least once every `featuredEvery` matches.
+  const fc = settings.featuredCountry, every = settings.featuredEvery || 0;
+  const mustFeature = fc && COUNTRIES[fc] && every > 1 && !history.slice(-(every - 1)).some(h => h.a === fc || h.b === fc);
   const pairs = [];
   for (let i = 0; i < ids.length; i++) for (let j = i + 1; j < ids.length; j++) {
     const k = key(ids[i], ids[j]);
     if (blocked.has(k)) continue;
-    pairs.push({ a: ids[i], b: ids[j], w: w(ids[i]) * w(ids[j]) * (recent.has(k) ? 0.02 : 1) });
+    if (mustFeature && ids[i] !== fc && ids[j] !== fc) continue;
+    const pw = mustFeature ? w(ids[i] === fc ? ids[j] : ids[i]) : w(ids[i]) * w(ids[j]);
+    pairs.push({ a: ids[i], b: ids[j], w: pw * (recent.has(k) ? 0.02 : 1) });
   }
   let r = Math.random() * pairs.reduce((s, p) => s + p.w, 0);
   for (const p of pairs) { r -= p.w; if (r <= 0) return Math.random() < 0.5 ? { a: p.a, b: p.b } : { a: p.b, b: p.a }; }

@@ -6,7 +6,7 @@
   "scripts": {
     "sabah": "node scripts/daily.js sabah",
     "aksam": "node scripts/daily.js aksam",
-    "test": "node tests/votes.test.js"
+    "test": "node tests/votes.test.js && node tests/matchups.test.js"
   },
   "engines": { "node": ">=20" },
   "dependencies": {

@@ -1,10 +1,11 @@
 {
-  "pollPublishTime": "10:00",
+  "pollPublishTime": null,
   "matchPublishTime": "20:00",
   "highlightPublishTime": "20:10",
   "montageShort": true,
   "montagePublishTime": "14:00",
   "scheduledPublish": true,
+  "seedComments": true,
   "privacy": "public",
   "categoryId": "20",
 
@@ -16,8 +17,10 @@
   "thresholdPercent": { "shield": 8, "armor": 18, "sharp": 30, "rage": 42, "special": 55 },
 
   "countryWeights": { "tr": 4, "az": 2.5, "de": 2, "us": 2, "ru": 1.5, "gb": 1.5, "fr": 1.5, "br": 1.5, "ar": 1.5, "jp": 1.5, "kr": 1.5, "cn": 1.2, "it": 1.2, "es": 1.2, "gr": 1.2, "nl": 1, "mx": 0.8, "in": 0.8, "eg": 0.8, "ua": 0.8, "pl": 0.6, "se": 0.6, "pk": 0.6 },
+  "featuredCountry": "tr",
+  "featuredEvery": 2,
   "minVotesInTitle": 50,
-  "blockedPairs": [["ru", "ua"], ["in", "pk"]],
+  "blockedPairs": [["ru", "ua"], ["in", "pk"], ["tr", "gr"]],
   "avoidRepeatDays": 30,
 
   "tags": ["bayrak arenası", "countryball", "bayrak topu", "ülke savaşı", "yorum savaşı", "kılıç dövüşü", "animasyon"]

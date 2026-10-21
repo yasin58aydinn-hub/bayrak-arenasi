@@ -4,14 +4,14 @@ Yorumlarla güçlenen bayrak topu dövüşleri. Bu depo her gün kendiliğinden 
 
 | Saat (TR) | Ne olur |
 |---|---|
-| 08:23 | **Sabah işi** eşleşmeyi seçer, 10 saniyelik oylama Shorts'unu üretir ve 10:00'da yayınlanacak şekilde yükler. |
-| 18:07 | **Akşam işi** oylama Shorts'unun yorumlarını sayar (oylama burada kapanır), güçleri toplam yorum payına göre dağıtır, maçı oynatır ve videoları üretir. |
+| 08:23 | **Sabah işi** eşleşmeyi seçer, 15 saniyelik oylama Shorts'unu üretir ve hemen yayınlar. Ardından kanal adına ilk yorumu yazar: oylama Shorts'una ve bu maçı duyuran dünkü öne çıkanlar Shorts'una. |
+| 18:07 | **Akşam işi** yorumları sayar (oylama burada kapanır), güçleri toplam yorum payına göre dağıtır, maçı oynatır ve videoları üretir. Oy sayılan Shorts'lar: sabahki oylama, dünkü öne çıkanlar ve bugünkü 14:00 montajı. Son ikisi bu maçı kapanış kartında duyurur. |
 | 20:00 | Uzun maç videosu (yaklaşık 3-4 dakika) kendi küçük resmiyle yayınlanır. |
-| 20:10 | Öne çıkanlar Shorts'u yayınlanır. Oylama Shorts'unun açıklamasına sonuç ve maç linki eklenir. |
-| Ertesi gün 14:00 | Maçın en sert anlarından (parry, çatışma, kalkan kırılması) bir montaj Shorts'u yayınlanır. |
+| 20:10 | Öne çıkanlar Shorts'u yayınlanır, sonunda yarınki maçı duyurur. Oylama Shorts'unun açıklamasına sonuç ve maç linki eklenir. |
+| Ertesi gün 14:00 | Maçın en sert anlarından (parry, çatışma, kalkan kırılması) bir montaj Shorts'u yayınlanır, sonunda o akşamki maçı duyurur. |
 | 23:41 | **Gece raporu** bütün videoların izlenme, beğeni, yorum ve izlenme süresi verilerini `data/rapor.md` ve `data/istatistik.json` dosyalarına yazar. |
 
-GitHub'ın zamanlayıcısı yoğun saatlerde 5-30 dakika gecikebilir. Videolar YouTube'da önceden planlandığı için yayın saati yine de kaymaz.
+GitHub'ın zamanlayıcısı yoğun saatlerde 5-30 dakika gecikebilir. Akşam videoları YouTube'da önceden planlandığı için yayın saatleri kaymaz. Oylama Shorts'u ise kanalın ilk yorumu yazılabilsin diye sabah işi bitince yayınlanır.
 
 Oyunun kendisi `index.html`. GitHub Pages açıldığında tarayıcıdan panel olarak da kullanılabilir.
 
@@ -81,13 +81,16 @@ Onay gelene kadar sistem çalışmaya devam eder: videolar üretilir ve yükleni
 
 ## Günlük kullanım
 
-**Eşleşme seçmek:** `data/kuyruk.txt` dosyasına her satıra bir maç yaz (ör. `de-fr`). En üstteki satır sıradaki maç olur. Liste boşsa sistem kendisi seçer: son 30 günde oynanan eşleşmeleri tekrarlamaz, art arda aynı ülkeyi pek seçmez, `blockedPairs` listesindekileri hiç seçmez.
+**Eşleşme seçmek:** `data/kuyruk.txt` dosyasına her satıra bir maç yaz (ör. `de-fr`). En üstteki satır sıradaki maç olur. Liste boşsa sistem kendisi seçer: Türkiye gün aşırı maça çıkar (`featuredCountry`, `featuredEvery`), son 30 günde oynanan eşleşmeler tekrarlanmaz, art arda aynı ülke pek seçilmez, `blockedPairs` listesindekiler hiç seçilmez.
 
 **Ayarlar** (`config/settings.json`):
 
 | Ayar | Anlamı |
 |---|---|
-| `pollPublishTime`, `matchPublishTime`, `highlightPublishTime` | Yayın saatleri (TR saati) |
+| `matchPublishTime`, `highlightPublishTime`, `montagePublishTime` | Yayın saatleri (TR saati) |
+| `pollPublishTime` | Oylama Shorts'unun yayın saati. `null` ise sabah işi bitince yayınlanır (kanalın ilk yorumu için gerekli) |
+| `seedComments` | Kanal, oylama Shorts'una ve dünkü öne çıkanlara ilk yorumu yazsın mı |
+| `featuredCountry`, `featuredEvery` | Bu ülke en az kaç maçta bir oynasın (`"tr"`, `2` = gün aşırı) |
 | `rounds` | Maçın round sayısı (5 = 3 alan kazanır) |
 | `targetSeconds` | Uzun videonun hedef süresi, saniye |
 | `thresholdPercent` | Her gücün açılması için gereken yorum payı (%) |
