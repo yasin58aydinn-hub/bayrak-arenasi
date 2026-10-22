@@ -1,9 +1,11 @@
 {
-  "today": null,
-  "next": {
+  "today": {
+    "date": "2026-10-22",
     "a": "ar",
-    "b": "nl"
+    "b": "nl",
+    "pollId": "zbpE7Vkl74Y"
   },
+  "next": null,
   "history": [
     {
       "date": "2026-10-19",
