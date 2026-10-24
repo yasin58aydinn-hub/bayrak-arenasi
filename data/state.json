@@ -1,11 +1,9 @@
 {
-  "today": {
-    "date": "2026-10-24",
-    "a": "az",
-    "b": "ua",
-    "pollId": "2OUrQ1PVhfM"
+  "today": null,
+  "next": {
+    "a": "cn",
+    "b": "tr"
   },
-  "next": null,
   "history": [
     {
       "date": "2026-10-19",
@@ -81,6 +79,23 @@
       "next": {
         "a": "az",
         "b": "ua"
+      }
+    },
+    {
+      "date": "2026-10-24",
+      "a": "az",
+      "b": "ua",
+      "votesA": 3,
+      "votesB": 0,
+      "winner": "az",
+      "score": "3-2",
+      "pollId": "2OUrQ1PVhfM",
+      "longId": "nL3OPIxyKWA",
+      "highlightId": "5idkMVYF7cI",
+      "montageId": "YBbRMOAfshQ",
+      "next": {
+        "a": "cn",
+        "b": "tr"
       }
     }
   ]
