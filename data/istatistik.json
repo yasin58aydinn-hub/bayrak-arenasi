@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T21:16:43.323Z",
+  "updated": "2026-10-30T21:13:42.575Z",
   "days": [
     {
       "date": "2026-10-19",
@@ -16,9 +16,9 @@
         "comments": 9,
         "title": "Türkiye mi Rusya mı? Yorumunla güç ver ⚔️ #türkiye #rusya",
         "publishedAt": "2026-10-19T07:33:11Z",
-        "watchMinutes": 225,
+        "watchMinutes": 226,
         "avgViewSec": 12,
-        "avgViewPct": 111.99,
+        "avgViewPct": 111.97,
         "subsGained": 3
       },
       "maç": {
@@ -28,14 +28,14 @@
         "comments": 0,
         "title": "TÜRKİYE vs RUSYA | 1 Yorum vs 0 Yorum: Kim Kazandı? ⚔️",
         "publishedAt": "2026-10-19T17:00:04Z",
-        "watchMinutes": 7,
-        "avgViewSec": 148,
-        "avgViewPct": 66.81,
+        "watchMinutes": 8,
+        "avgViewSec": 120,
+        "avgViewPct": 53.839999999999996,
         "subsGained": 0
       },
       "özet": {
         "id": "Tpt-H9pJouM",
-        "views": 1401,
+        "views": 1403,
         "likes": 12,
         "comments": 0,
         "title": "Türkiye vs Rusya: K.O. anı! ⚔️ #türkiye #rusya",
@@ -68,7 +68,7 @@
       },
       "maç": {
         "id": "62D3SkCp-dM",
-        "views": 4,
+        "views": 5,
         "likes": 0,
         "comments": 0,
         "title": "TÜRKİYE vs ALMANYA | Kılıç Düellosu: Kim Kazandı? ⚔️",
@@ -80,26 +80,26 @@
       },
       "özet": {
         "id": "4ARrnBBycnA",
-        "views": 1326,
+        "views": 1328,
         "likes": 11,
         "comments": 1,
         "title": "Türkiye vs Almanya: K.O. anı! ⚔️ #türkiye #almanya",
         "publishedAt": "2026-10-20T17:10:01Z",
         "watchMinutes": 190,
         "avgViewSec": 17,
-        "avgViewPct": 77.41,
+        "avgViewPct": 77.35,
         "subsGained": 1
       },
       "montaj": {
         "id": "GQ0qG1jKIoo",
-        "views": 1738,
+        "views": 1739,
         "likes": 6,
         "comments": 0,
         "title": "Türkiye vs Almanya: En sert anlar! ⚔️ #türkiye #almanya",
         "publishedAt": "2026-10-21T11:00:30Z",
         "watchMinutes": 260,
         "avgViewSec": 15,
-        "avgViewPct": 93.49,
+        "avgViewPct": 93.4,
         "subsGained": 1
       }
     },
@@ -149,7 +149,7 @@
       },
       "montaj": {
         "id": "W-VF9cdKa30",
-        "views": 1102,
+        "views": 1103,
         "likes": 12,
         "comments": 0,
         "title": "Ukrayna vs İngiltere: En sert anlar! ⚔️ #ukrayna #ingiltere",
@@ -202,7 +202,7 @@
       },
       "montaj": {
         "id": "uJ1V_7yQMA4",
-        "views": 1237,
+        "views": 1238,
         "likes": 6,
         "comments": 2,
         "title": "Arjantin vs Hollanda: En sert anlar! ⚔️ #arjantin #hollanda",
@@ -247,26 +247,26 @@
       },
       "özet": {
         "id": "xMZsa2s_hzc",
-        "views": 1230,
+        "views": 1231,
         "likes": 7,
         "comments": 2,
         "title": "Türkiye vs Japonya: K.O. anı! ⚔️ #türkiye #japonya",
         "publishedAt": "2026-10-23T17:10:30Z",
         "watchMinutes": 143,
         "avgViewSec": 17,
-        "avgViewPct": 83.5,
+        "avgViewPct": 83.26,
         "subsGained": 0
       },
       "montaj": {
         "id": "sVZkw20aO1s",
-        "views": 1245,
+        "views": 1248,
         "likes": 7,
         "comments": 0,
         "title": "Türkiye vs Japonya: En sert anlar! ⚔️ #türkiye #japonya",
         "publishedAt": "2026-10-24T11:00:25Z",
-        "watchMinutes": 116,
+        "watchMinutes": 117,
         "avgViewSec": 12,
-        "avgViewPct": 79.04,
+        "avgViewPct": 79.12,
         "subsGained": 1
       }
     },
@@ -292,7 +292,7 @@
       },
       "maç": {
         "id": "nL3OPIxyKWA",
-        "views": 4,
+        "views": 6,
         "likes": 0,
         "comments": 0,
         "title": "AZERBAYCAN vs UKRAYNA | Kılıç Düellosu: Kim Kazandı? ⚔️",
@@ -309,9 +309,9 @@
         "comments": 5,
         "title": "Azerbaycan vs Ukrayna: K.O. anı! ⚔️ #azerbaycan #ukrayna",
         "publishedAt": "2026-10-24T17:10:10Z",
-        "watchMinutes": 105,
+        "watchMinutes": 106,
         "avgViewSec": 12,
-        "avgViewPct": 74.05,
+        "avgViewPct": 73.95,
         "subsGained": 1
       },
       "montaj": {
@@ -342,9 +342,9 @@
         "comments": 2,
         "title": "Çin mi Türkiye mi? Yorumunla güç ver ⚔️ #çin #türkiye",
         "publishedAt": "2026-10-25T05:53:36Z",
-        "watchMinutes": 114,
+        "watchMinutes": 116,
         "avgViewSec": 12,
-        "avgViewPct": 79.94,
+        "avgViewPct": 79.52,
         "subsGained": 0
       },
       "maç": {
@@ -368,7 +368,7 @@
         "publishedAt": "2026-10-25T17:10:11Z",
         "watchMinutes": 87,
         "avgViewSec": 11,
-        "avgViewPct": 68.07,
+        "avgViewPct": 68.34,
         "subsGained": 0
       },
       "montaj": {
@@ -378,9 +378,9 @@
         "comments": 0,
         "title": "Çin vs Türkiye: En sert anlar! ⚔️ #çin #türkiye",
         "publishedAt": "2026-10-26T11:00:01Z",
-        "watchMinutes": 99,
+        "watchMinutes": 100,
         "avgViewSec": 12,
-        "avgViewPct": 77.04,
+        "avgViewPct": 77.12,
         "subsGained": 1
       }
     },
@@ -394,19 +394,19 @@
       "score": "3-2",
       "oylama": {
         "id": "9WFM9N9t5Zg",
-        "views": 1058,
+        "views": 1063,
         "likes": 9,
         "comments": 3,
         "title": "Türkiye mi Meksika mı? Yorumunla güç ver ⚔️ #türkiye #meksika",
         "publishedAt": "2026-10-26T05:58:59Z",
-        "watchMinutes": 102,
+        "watchMinutes": 104,
         "avgViewSec": 12,
-        "avgViewPct": 80.4,
+        "avgViewPct": 80.15,
         "subsGained": 1
       },
       "maç": {
         "id": "d4nwAXXQR6Y",
-        "views": 3,
+        "views": 4,
         "likes": 0,
         "comments": 0,
         "title": "TÜRKİYE vs MEKSİKA | Kılıç Düellosu: Kim Kazandı? ⚔️",
@@ -418,26 +418,26 @@
       },
       "özet": {
         "id": "OiKbLki2xVY",
-        "views": 1090,
+        "views": 1093,
         "likes": 7,
         "comments": 1,
         "title": "Türkiye vs Meksika: K.O. anı! ⚔️ #türkiye #meksika",
         "publishedAt": "2026-10-26T17:10:14Z",
-        "watchMinutes": 90,
+        "watchMinutes": 116,
         "avgViewSec": 13,
-        "avgViewPct": 63.77,
-        "subsGained": 0
+        "avgViewPct": 65.54,
+        "subsGained": 1
       },
       "montaj": {
         "id": "Vfl1fOSNbEY",
-        "views": 976,
+        "views": 981,
         "likes": 2,
         "comments": 0,
         "title": "Türkiye vs Meksika: En sert anlar! ⚔️ #türkiye #meksika",
         "publishedAt": "2026-10-27T11:00:09Z",
         "watchMinutes": 81,
         "avgViewSec": 10,
-        "avgViewPct": 68.63,
+        "avgViewPct": 68.26,
         "subsGained": 0
       }
     },
@@ -456,9 +456,9 @@
         "comments": 1,
         "title": "Hollanda mı Almanya mı? Yorumunla güç ver ⚔️ #hollanda #almanya",
         "publishedAt": "2026-10-27T05:57:15Z",
-        "watchMinutes": 79,
+        "watchMinutes": 80,
         "avgViewSec": 10,
-        "avgViewPct": 67.77,
+        "avgViewPct": 67.37,
         "subsGained": 1
       },
       "maç": {
@@ -467,27 +467,35 @@
         "likes": 0,
         "comments": 0,
         "title": "HOLLANDA vs ALMANYA | Kılıç Düellosu: Kim Kazandı? ⚔️",
-        "publishedAt": "2026-10-27T17:00:37Z"
+        "publishedAt": "2026-10-27T17:00:37Z",
+        "watchMinutes": 0,
+        "avgViewSec": 1,
+        "avgViewPct": 0.83,
+        "subsGained": 0
       },
       "özet": {
         "id": "3NUXSzzrF8c",
-        "views": 1002,
+        "views": 1004,
         "likes": 2,
         "comments": 1,
         "title": "Hollanda vs Almanya: K.O. anı! ⚔️ #hollanda #almanya",
         "publishedAt": "2026-10-27T17:10:27Z",
-        "watchMinutes": 56,
+        "watchMinutes": 68,
         "avgViewSec": 11,
-        "avgViewPct": 54.77000000000001,
+        "avgViewPct": 55.77000000000001,
         "subsGained": 2
       },
       "montaj": {
         "id": "hqLOiRfZM_s",
-        "views": 927,
+        "views": 928,
         "likes": 2,
         "comments": 0,
         "title": "Hollanda vs Almanya: En sert anlar! ⚔️ #hollanda #almanya",
-        "publishedAt": "2026-10-28T11:00:30Z"
+        "publishedAt": "2026-10-28T11:00:30Z",
+        "watchMinutes": 69,
+        "avgViewSec": 10,
+        "avgViewPct": 66.99,
+        "subsGained": 0
       }
     },
     {
@@ -500,36 +508,44 @@
       "score": "3-2",
       "oylama": {
         "id": "5QVaLIfn8Z4",
-        "views": 1357,
-        "likes": 5,
+        "views": 1490,
+        "likes": 6,
         "comments": 4,
         "title": "Azerbaycan mı Türkiye mi? Yorumunla güç ver ⚔️ #azerbaycan #türkiye",
         "publishedAt": "2026-10-28T06:03:44Z",
-        "watchMinutes": 0,
-        "avgViewSec": 18,
-        "avgViewPct": 115.19,
+        "watchMinutes": 134,
+        "avgViewSec": 13,
+        "avgViewPct": 83.81,
         "subsGained": 0
       },
       "maç": {
         "id": "PX7mR7_X0Ys",
-        "views": 6,
+        "views": 7,
         "likes": 0,
         "comments": 0,
         "title": "AZERBAYCAN vs TÜRKİYE | Kılıç Düellosu: Kim Kazandı? ⚔️",
-        "publishedAt": "2026-10-28T17:00:04Z"
+        "publishedAt": "2026-10-28T17:00:04Z",
+        "watchMinutes": 0,
+        "avgViewSec": 30,
+        "avgViewPct": 12.41,
+        "subsGained": 0
       },
       "özet": {
         "id": "_VJ_osFHNnI",
-        "views": 914,
+        "views": 1038,
         "likes": 4,
         "comments": 2,
         "title": "Azerbaycan vs Türkiye: K.O. anı! ⚔️ #azerbaycan #türkiye",
-        "publishedAt": "2026-10-28T17:10:23Z"
+        "publishedAt": "2026-10-28T17:10:23Z",
+        "watchMinutes": 94,
+        "avgViewSec": 12,
+        "avgViewPct": 61.03000000000001,
+        "subsGained": 0
       },
       "montaj": {
         "id": "MGkLEOJotx4",
-        "views": 980,
-        "likes": 2,
+        "views": 1354,
+        "likes": 4,
         "comments": 0,
         "title": "Azerbaycan vs Türkiye: En sert anlar! ⚔️ #azerbaycan #türkiye",
         "publishedAt": "2026-10-29T11:00:13Z"
@@ -545,15 +561,19 @@
       "score": "3-2",
       "oylama": {
         "id": "Fyfzh01Qins",
-        "views": 2,
+        "views": 3,
         "likes": 0,
         "comments": 1,
         "title": "ABD mi Polonya mı? Yorumunla güç ver ⚔️ #abd #polonya",
-        "publishedAt": "2026-10-29T06:06:34Z"
+        "publishedAt": "2026-10-29T06:06:34Z",
+        "watchMinutes": 0,
+        "avgViewSec": 0,
+        "avgViewPct": 0,
+        "subsGained": 0
       },
       "maç": {
         "id": "dMxKqDVQY10",
-        "views": 0,
+        "views": 1,
         "likes": 0,
         "comments": 0,
         "title": "ABD vs POLONYA | Kılıç Düellosu: Kim Kazandı? ⚔️",
@@ -561,19 +581,60 @@
       },
       "özet": {
         "id": "ZJ1aoMTHgNw",
-        "views": 131,
-        "likes": 2,
-        "comments": 0,
+        "views": 356,
+        "likes": 8,
+        "comments": 1,
         "title": "ABD vs Polonya: K.O. anı! ⚔️ #abd #polonya",
         "publishedAt": "2026-10-29T17:10:33Z"
       },
       "montaj": {
         "id": "bMxhVJE1z2g",
+        "views": 715,
+        "likes": 12,
+        "comments": 0,
+        "title": "ABD vs Polonya: En sert anlar! ⚔️ #abd #polonya",
+        "publishedAt": "2026-10-30T11:00:14Z"
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "a": "it",
+      "b": "tr",
+      "votesA": 0,
+      "votesB": 0,
+      "winner": "it",
+      "score": "3-2",
+      "oylama": {
+        "id": "LkrlsDHFonI",
+        "views": 3,
+        "likes": 0,
+        "comments": 1,
+        "title": "İtalya mı Türkiye mi? Yorumunla güç ver ⚔️ #italya #türkiye",
+        "publishedAt": "2026-10-30T06:05:33Z"
+      },
+      "maç": {
+        "id": "Tsx2XOZodkQ",
         "views": 0,
         "likes": 0,
         "comments": 0,
-        "title": "ABD vs Polonya: En sert anlar! ⚔️ #abd #polonya",
-        "publishedAt": "2026-10-29T16:04:11Z"
+        "title": "İTALYA vs TÜRKİYE | Kılıç Düellosu: Kim Kazandı? ⚔️",
+        "publishedAt": "2026-10-30T17:00:24Z"
+      },
+      "özet": {
+        "id": "h51th0AOzGo",
+        "views": 406,
+        "likes": 1,
+        "comments": 0,
+        "title": "İtalya vs Türkiye: K.O. anı! ⚔️ #italya #türkiye",
+        "publishedAt": "2026-10-30T17:10:01Z"
+      },
+      "montaj": {
+        "id": "xqKFaVGjKhg",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "title": "İtalya vs Türkiye: En sert anlar! ⚔️ #italya #türkiye",
+        "publishedAt": "2026-10-30T15:58:11Z"
       }
     }
   ]
