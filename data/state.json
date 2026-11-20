@@ -1,11 +1,9 @@
 {
-  "today": {
-    "date": "2026-11-20",
-    "a": "tr",
-    "b": "ru",
-    "pollId": "1BO13nUTsLg"
+  "today": null,
+  "next": {
+    "a": "us",
+    "b": "ua"
   },
-  "next": null,
   "history": [
     {
       "date": "2026-10-19",
@@ -523,6 +521,23 @@
       "next": {
         "a": "tr",
         "b": "ru"
+      }
+    },
+    {
+      "date": "2026-11-21",
+      "a": "tr",
+      "b": "ru",
+      "votesA": 0,
+      "votesB": 0,
+      "winner": "tr",
+      "score": "3-2",
+      "pollId": "1BO13nUTsLg",
+      "longId": "fdhmQFbsstA",
+      "highlightId": "ME1shmD0rr8",
+      "montageId": "1_xAfQaCwgM",
+      "next": {
+        "a": "us",
+        "b": "ua"
       }
     }
   ]
