@@ -1,48 +1,49 @@
 # Bayrak Arenası performans raporu
-Son güncelleme: 2026-11-21 01:43 UTC
+Son güncelleme: 2026-11-22 00:38 UTC
 
 ## Son 7 gün
-- Oylama Shorts'ları: 36 izlenme, ortalama 0 oy
-- Maç videoları: 11 izlenme, ortalama izlenme oranı %11
-- Özet Shorts'ları: 53 izlenme
-- Montaj Shorts'ları: 73 izlenme
+- Oylama Shorts'ları: 14 izlenme, ortalama 0 oy
+- Maç videoları: 6 izlenme, ortalama izlenme oranı %4
+- Özet Shorts'ları: 51 izlenme
+- Montaj Shorts'ları: 38 izlenme
 - Kazanılan abone (videolardan): 0
 
 
 ## Günlük
 | Tarih | Maç | Oy | Skor | Oylama izl. | Maç izl. | Maç ort. izlenme | Özet izl. | Montaj izl. | Yorum (oylama) |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-11-21 | Türkiye - Rusya | 0-0 | 3-2 | 1 | 0 | - | 0 | 0 | 1 |
-| 2026-11-20 | Arjantin - ABD | 0-0 | 2-3 | 0 | 0 | - | 0 | 0 | 1 |
-| 2026-11-19 | Türkiye - Hindistan | 0-0 | 2-3 | 1 | 2 | - | 6 | 0 | 1 |
-| 2026-11-18 | Almanya - Meksika | 0-0 | 2-3 | 5 | 0 | - | 16 | 4 | 1 |
-| 2026-11-16 | Türkiye - İngiltere | 0-0 | 2-3 | 2 | 1 | - | 13 | 16 | 1 |
-| 2026-11-15 | Polonya - Ukrayna | 0-0 | 2-3 | 3 | 1 | %4 | 10 | 11 | 1 |
-| 2026-11-14 | Türkiye - Hollanda | 1-0 | 3-2 | 24 | 7 | %18 | 8 | 42 | 2 |
-| 2026-11-13 | Azerbaycan - Japonya | 0-0 | 2-3 | 42 | 18 | %33 | 2.358 | 1.453 | 1 |
-| 2026-11-12 | Türkiye - Polonya | 0-0 | 3-2 | 24 | 74 | %10 | 1.781 | 3.099 | 1 |
-| 2026-11-10 | Güney Kore - İtalya | 0-0 | 2-3 | 18 | 63 | %19 | 29 | 48 | 1 |
-| 2026-11-09 | ABD - Türkiye | 0-0 | 2-3 | 9 | 7 | %42 | 1.302 | 40 | 1 |
+| 2026-11-21 | ABD - Ukrayna | 0-0 | 3-2 | 1 | 0 | - | 0 | 0 | 1 |
+| 2026-11-21 | Türkiye - Rusya | 0-0 | 3-2 | 1 | 0 | - | 1 | 0 | 1 |
+| 2026-11-20 | Arjantin - ABD | 0-0 | 2-3 | 0 | 0 | - | 0 | 1 | 1 |
+| 2026-11-19 | Türkiye - Hindistan | 0-0 | 2-3 | 1 | 2 | - | 6 | 2 | 1 |
+| 2026-11-18 | Almanya - Meksika | 0-0 | 2-3 | 6 | 2 | - | 16 | 4 | 1 |
+| 2026-11-16 | Türkiye - İngiltere | 0-0 | 2-3 | 2 | 1 | - | 18 | 18 | 1 |
+| 2026-11-15 | Polonya - Ukrayna | 0-0 | 2-3 | 3 | 1 | %4 | 10 | 13 | 1 |
+| 2026-11-14 | Türkiye - Hollanda | 1-0 | 3-2 | 24 | 7 | %18 | 9 | 45 | 2 |
+| 2026-11-13 | Azerbaycan - Japonya | 0-0 | 2-3 | 44 | 20 | %33 | 2.367 | 1.454 | 1 |
+| 2026-11-12 | Türkiye - Polonya | 0-0 | 3-2 | 24 | 74 | %10 | 1.784 | 3.100 | 1 |
+| 2026-11-10 | Güney Kore - İtalya | 0-0 | 2-3 | 18 | 63 | %19 | 29 | 47 | 1 |
+| 2026-11-09 | ABD - Türkiye | 0-0 | 2-3 | 9 | 7 | %42 | 1.303 | 40 | 1 |
 | 2026-11-08 | Pakistan - Japonya | 0-0 | 2-3 | 12 | 0 | - | 12 | 16 | 1 |
 | 2026-11-07 | Türkiye - Brezilya | 0-0 | 2-3 | 11 | 33 | %21 | 912 | 27 | 1 |
 | 2026-11-06 | ABD - Yunanistan | 0-0 | 3-2 | 9 | 4 | %34 | 914 | 428 | 1 |
 | 2026-11-05 | Güney Kore - Türkiye | 0-0 | 3-2 | 1.798 | 43 | %14 | 1.447 | 1.010 | 7 |
-| 2026-11-04 | Rusya - Fransa | 0-0 | 3-2 | 9 | 12 | %11 | 15 | 745 | 1 |
+| 2026-11-04 | Rusya - Fransa | 0-0 | 3-2 | 9 | 12 | %12 | 15 | 746 | 1 |
 | 2026-11-03 | Mısır - Türkiye | 0-0 | 2-3 | 14 | 28 | %18 | 1.006 | 1.025 | 1 |
 | 2026-11-02 | Arjantin - İspanya | 0-0 | 3-2 | 9 | 2 | %7 | 308 | 991 | 1 |
 | 2026-11-01 | Türkiye - Fransa | 0-0 | 2-3 | 5 | 1 | %100 | 651 | 1.029 | 1 |
 | 2026-10-31 | İtalya - Brezilya | 0-0 | 2-3 | 1.148 | 3 | %19 | 448 | 746 | 2 |
 | 2026-10-30 | İtalya - Türkiye | 0-0 | 3-2 | 15 | 6 | %14 | 1.007 | 910 | 1 |
 | 2026-10-29 | ABD - Polonya | 0-0 | 3-2 | 5 | 8 | %28 | 540 | 1.021 | 1 |
-| 2026-10-28 | Azerbaycan - Türkiye | 0-0 | 3-2 | 1.618 | 26 | %38 | 1.090 | 2.838 | 4 |
-| 2026-10-27 | Hollanda - Almanya | 0-0 | 2-3 | 968 | 3 | %38 | 1.020 | 943 | 1 |
+| 2026-10-28 | Azerbaycan - Türkiye | 0-0 | 3-2 | 1.618 | 27 | %38 | 1.090 | 2.853 | 4 |
+| 2026-10-27 | Hollanda - Almanya | 0-0 | 2-3 | 968 | 3 | %38 | 1.020 | 944 | 1 |
 | 2026-10-26 | Türkiye - Meksika | 0-0 | 3-2 | 1.068 | 6 | %65 | 1.112 | 1.005 | 3 |
 | 2026-10-25 | Çin - Türkiye | 0-2 | 3-2 | 1.163 | 12 | %27 | 1.068 | 1.080 | 2 |
-| 2026-10-24 | Azerbaycan - Ukrayna | 3-0 | 3-2 | 1.191 | 10 | %40 | 1.212 | 1.247 | 8 |
-| 2026-10-23 | Türkiye - Japonya | 0-1 | 3-2 | 1.213 | 7 | %34 | 1.253 | 1.287 | 2 |
+| 2026-10-24 | Azerbaycan - Ukrayna | 3-0 | 3-2 | 1.192 | 10 | %40 | 1.212 | 1.247 | 8 |
+| 2026-10-23 | Türkiye - Japonya | 0-1 | 3-2 | 1.213 | 7 | %34 | 1.253 | 1.289 | 2 |
 | 2026-10-22 | Arjantin - Hollanda | 0-0 | 3-2 | 1.090 | 0 | - | 1.267 | 1.241 | 3 |
 | 2026-10-21 | Ukrayna - İngiltere | 0-0 | 2-3 | 1.243 | 6 | %25 | 1.184 | 1.105 | 0 |
-| 2026-10-20 | Türkiye - Almanya | 0-0 | 2-3 | 1.246 | 9 | %32 | 1.346 | 1.753 | 0 |
+| 2026-10-20 | Türkiye - Almanya | 0-0 | 2-3 | 1.246 | 9 | %32 | 1.347 | 1.753 | 0 |
 | 2026-10-19 | Türkiye - Rusya | 1-0 | 3-2 | 2.432 | 9 | %48 | 1.422 | - | 9 |
 
 ## En çok izlenen maçlar
