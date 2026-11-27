@@ -1,9 +1,11 @@
 {
-  "today": null,
-  "next": {
+  "today": {
+    "date": "2026-11-27",
     "a": "jp",
-    "b": "tr"
+    "b": "tr",
+    "pollId": "ZtTQ6zCDT9M"
   },
+  "next": null,
   "history": [
     {
       "date": "2026-10-19",
